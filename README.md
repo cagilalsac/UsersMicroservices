@@ -452,39 +452,36 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     app.UseCors...  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
-## 2) Locations Microservices: Source code shared in Locations.APP and Locations.API Projects, these projects are homeworks.
+## II) Locations Microservices: Source code shared in Locations.APP and Locations.API Projects, these projects are homeworks.
 
 Note: The JWT Authentication will be provided through Users.API, therefore JWT Authentication and validation configuration must be added 
-      in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in 
-      Users.API Project's Program.cs.  
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Program.cs  
-      For reference:  
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs  
+in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in Users.API Project's Program.cs.  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Program.cs  
+For reference:  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs  
 
 Note: Check and add missing injection configurations in the Program.cs of Locations.API for:  
-      DbContext: builder.Services.AddDbContext...  
-      Mediator: builder.Services.AddMediatR...  
-      Authentication: builder.Configuration["SecurityKey"]...  
-                      builder.Services.AddAuthentication...  
-      Swagger: builder.Services.AddSwaggerGen...  
-      CORS: builder.Services.AddCors...  
-      Authentication: app.UseAuthentication()  
-      CORS: app.UseCors()
+DbContext: builder.Services.AddDbContext...  
+Mediator: builder.Services.AddMediatR...  
+Authentication: builder.Configuration["SecurityKey"]..., builder.Services.AddAuthentication...  
+Swagger: builder.Services.AddSwaggerGen...  
+CORS: builder.Services.AddCors...  
+Authentication: app.UseAuthentication()  
+CORS: app.UseCors()
 
 Note: Initial data for locations may be seeded through the DatabaseController of the Locations.API Project:  
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
 
-Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response 
-      with cities of a country having the country ID parameter value.  
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs
+Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response with cities of a country having the country ID parameter value.  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs
 
 Note: Inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
 
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  
       
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationInnerJoinQueryHandler.cs  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationInnerJoinQueryHandler.cs  
       
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationLeftJoinQueryHandler.cs  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationLeftJoinQueryHandler.cs  
 
-      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/LocationsController.cs
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/LocationsController.cs
