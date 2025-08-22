@@ -8,11 +8,25 @@ namespace Users.APP.Features.Users
 {
     public class UserQueryRequest : Request, IRequest<IQueryable<UserQueryResponse>>
     {
-        // If true, county and city names will be consumed from the LocationsMicroservices, otherwise country and city IDs will be used.
-        public bool GetLocations { get; set; }
+        // Properties used for filtering User entity query through the request:
+        // All value type properties are defined as nullable because if they have values, their values will be applied for filtering.
+        // Generally range filtering, including start and end values, is applied for DateTime and numeric properties.
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public Genders? Gender { get; set; }
+        public DateTime? BirthDateStart { get; set; }
+        public DateTime? BirthDateEnd { get; set; }
+        public decimal? ScoreStart { get; set; }
+        public decimal? ScoreEnd { get; set; }
+        public bool? IsActive { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
+        public int? GroupId { get; set; }
+        public List<int> RoleIds { get; set; } = new List<int>();
     }
 
-    // response properties are created according to the data to be presented in APIs or UIs
+    // response properties are created according to the data to be presented in API responses or UIs
     public class UserQueryResponse : Response 
     {
         // copy all the non navigation properties from User entity
@@ -103,11 +117,89 @@ namespace Users.APP.Features.Users
 
         public Task<IQueryable<UserQueryResponse>> Handle(UserQueryRequest request, CancellationToken cancellationToken)
         {
-            // code for consuming Locations Microservices to get country and city names not implemented yet
-            if (request.GetLocations)
-                throw new NotImplementedException();
+            // will get the query of all User entities
+            var entityQuery = Query();
 
-            var query = Query().Select(u => new UserQueryResponse // () after the class name may not be used
+
+
+            // filtering according to the request properties: u is User entity delegate
+
+            // if UserName != null and UserName.Trim() != ""
+            if (!string.IsNullOrWhiteSpace(request.UserName))
+                // apply user name filtering to the query for exact match
+                // Way 1:
+                //query = query.Where(u => u.UserName.Equals(request.UserName));
+                // Way 2:
+                entityQuery = entityQuery.Where(u => u.UserName == request.UserName);
+
+            // if FirstName has a value other than null or empty string without whitespace characters
+            if (!string.IsNullOrWhiteSpace(request.FirstName))
+                // apply first name filtering to the query for case insensitive partial match,
+                // for partial match StartsWith or EndsWith methods can also be used instead of Contains method
+                entityQuery = entityQuery.Where(u => u.FirstName.ToUpper().Contains(request.FirstName.ToUpper().Trim()));
+
+            // if LastName has a value other than null or empty string without whitespace characters
+            if (!string.IsNullOrWhiteSpace(request.LastName))
+                // apply last name filtering to the query for case insensitive partial match
+                entityQuery = entityQuery.Where(u => u.LastName.ToUpper().Contains(request.LastName.ToUpper().Trim()));
+
+            // if Gender has a value therefore is not null
+            if (request.Gender.HasValue) // if (request.Gender is not null) or if (request.Gender != null) can also be written
+                // apply gender filtering to the query for exact match
+                entityQuery = entityQuery.Where(u => u.Gender == request.Gender.Value);
+
+            // if BirthDateStart has a value
+            if (request.BirthDateStart.HasValue)
+                // apply birth date start filtering to the query for greater than or equal match
+                // Way 1: filtering with date and time value (e.g. 08/22/1990 13:45:57)
+                //query = query.Where(u => u.BirthDate.HasValue && u.BirthDate.Value >= request.BirthDateStart.Value);
+                // Way 2: filtering with date value only (e.g. 08/22/1990)
+                entityQuery = entityQuery.Where(u => u.BirthDate.HasValue && u.BirthDate.Value.Date >= request.BirthDateStart.Value.Date);
+
+            // if BirthDateEnd has a value
+            if (request.BirthDateEnd.HasValue)
+                // apply birth date end without time filtering to the query for less than or equal match
+                entityQuery = entityQuery.Where(u => u.BirthDate.HasValue && u.BirthDate.Value.Date <= request.BirthDateEnd.Value.Date);
+
+            // if ScoreStart has a value
+            if (request.ScoreStart.HasValue)
+                // apply score start filtering to the query for greater than or equal match
+                entityQuery = entityQuery.Where(u => u.Score >= request.ScoreStart.Value);
+
+            // if ScoreEnd has a value
+            if (request.ScoreEnd.HasValue)
+                // apply score end filtering to the query for less than or equal match
+                entityQuery = entityQuery.Where(u => u.Score <= request.ScoreEnd.Value);
+
+            // if IsActive has a value
+            if (request.IsActive.HasValue)
+                // apply is active filtering to the query for exact match
+                entityQuery = entityQuery.Where(u => u.IsActive == request.IsActive.Value);
+
+            // if CountryId has a value
+            if (request.CountryId.HasValue)
+                // apply country ID filtering to the query for exact match
+                entityQuery = entityQuery.Where(u => u.CountryId == request.CountryId.Value);
+
+            // if CityId has a value
+            if (request.CityId.HasValue)
+                // apply city ID filtering to the query for exact match
+                entityQuery = entityQuery.Where(u => u.CityId == request.CityId.Value);
+
+            // if GroupId has a value
+            if (request.GroupId.HasValue)
+                // apply group ID filtering to the query for exact match
+                entityQuery = entityQuery.Where(u => u.GroupId == request.GroupId.Value);
+
+            // if RoleIds has a list with at least one element
+            if (request.RoleIds.Count > 0) // Any() method can also be used instead of Count > 0
+                // apply role IDs filtering to the query for any match
+                entityQuery = entityQuery.Where(u => u.UserRoles.Any(ur => request.RoleIds.Contains(ur.RoleId)));
+
+
+
+            // apply entity to response projection to the entity query:
+            var query = entityQuery.Select(u => new UserQueryResponse // () after the class name may not be used
             {
                 // assigning entity properties to the response
                 Id = u.Id,
@@ -157,6 +249,9 @@ namespace Users.APP.Features.Users
                                                                         // and convert them to List<string>.
             });
 
+
+
+            // return the query as a Task result
             return Task.FromResult(query);
         }
     }

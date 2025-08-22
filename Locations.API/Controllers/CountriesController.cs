@@ -1,37 +1,36 @@
 ﻿#nullable disable
 using CORE.APP.Models;
+using Locations.APP.Features.Countries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Users.APP.Features.Users;
 
 //Generated from Custom Microservices Template.
-namespace Users.API.Controllers
+namespace Locations.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class CountriesController : ControllerBase
     {
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<CountriesController> _logger;
         private readonly IMediator _mediator;
 
         // Constructor: injects logger to log the errors to Kestrel Console or Output Window and mediator
-        public UsersController(ILogger<UsersController> logger, IMediator mediator)
+        public CountriesController(ILogger<CountriesController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
         }
 
-        // GET: api/Users
+        // GET: api/Countries
         [HttpGet]
-        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
         public async Task<IActionResult> Get()
         {
             try
             {
                 // Send a query request to get query response
-                var response = await _mediator.Send(new UserQueryRequest());
+                var response = await _mediator.Send(new CountryQueryRequest());
                 // Convert the query response to a list
                 var list = await response.ToListAsync();
                 // If there are items, return them with 200 OK
@@ -43,21 +42,20 @@ namespace Users.API.Controllers
             catch (Exception exception)
             {
                 // Log the exception
-                _logger.LogError("UsersGet Exception: " + exception.Message);
+                _logger.LogError("CountriesGet Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGet.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during CountriesGet.")); 
             }
         }
 
-        // GET: api/Users/5
+        // GET: api/Countries/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
         public async Task<IActionResult> Get(int id)
         {
             try
             {
                 // Send a query request to get query response
-                var response = await _mediator.Send(new UserQueryRequest());
+                var response = await _mediator.Send(new CountryQueryRequest());
                 // Find the item with the given id
                 var item = await response.SingleOrDefaultAsync(r => r.Id == id);
                 // If item found, return it with 200 OK
@@ -69,16 +67,16 @@ namespace Users.API.Controllers
             catch (Exception exception)
             {
                 // Log the exception
-                _logger.LogError("UsersGetById Exception: " + exception.Message);
+                _logger.LogError("CountriesGetById Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGetById.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during CountriesGetById.")); 
             }
         }
 
-		// POST: api/Users
+		// POST: api/Countries
         [HttpPost]
-        [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
-        public async Task<IActionResult> Post(UserCreateRequest request)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Post(CountryCreateRequest request)
         {
             try
             {
@@ -94,7 +92,7 @@ namespace Users.API.Controllers
                         return Ok(response);
                     }
                     // If creation failed, add error command response message to model state
-                    ModelState.AddModelError("UsersPost", response.Message);
+                    ModelState.AddModelError("CountriesPost", response.Message);
                 }
                 // Return 400 Bad Request with all data annotation validation error messages and the error command response message if added seperated by |
                 return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
@@ -102,16 +100,16 @@ namespace Users.API.Controllers
             catch (Exception exception)
             {
                 // Log the exception
-                _logger.LogError("UsersPost Exception: " + exception.Message);
+                _logger.LogError("CountriesPost Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPost.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during CountriesPost.")); 
             }
         }
 
-        // PUT: api/Users
+        // PUT: api/Countries
         [HttpPut]
-        [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
-        public async Task<IActionResult> Put(UserUpdateRequest request)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Put(CountryUpdateRequest request)
         {
             try
             {
@@ -127,7 +125,7 @@ namespace Users.API.Controllers
                         return Ok(response);
                     }
                     // If update failed, add error command response message to model state
-                    ModelState.AddModelError("UsersPut", response.Message);
+                    ModelState.AddModelError("CountriesPut", response.Message);
                 }
                 // Return 400 Bad Request with all data annotation validation error messages and the error command response message if added seperated by |
                 return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
@@ -135,21 +133,21 @@ namespace Users.API.Controllers
             catch (Exception exception)
             {
                 // Log the exception
-                _logger.LogError("UsersPut Exception: " + exception.Message);
+                _logger.LogError("CountriesPut Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPut.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during CountriesPut.")); 
             }
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Countries/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Send the delete request
-                var response = await _mediator.Send(new UserDeleteRequest() { Id = id });
+                var response = await _mediator.Send(new CountryDeleteRequest() { Id = id });
                 // If delete is successful, return 200 OK with success command response
                 if (response.IsSuccessful)
                 {
@@ -157,36 +155,17 @@ namespace Users.API.Controllers
                     return Ok(response);
                 }
                 // If delete failed, add error command response message to model state
-                ModelState.AddModelError("UsersDelete", response.Message);
+                ModelState.AddModelError("CountriesDelete", response.Message);
                 // Return 400 Bad Request with the error command response message
                 return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
             }
             catch (Exception exception)
             {
                 // Log the exception
-                _logger.LogError("UsersDelete Exception: " + exception.Message);
+                _logger.LogError("CountriesDelete Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersDelete.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during CountriesDelete.")); 
             }
-        }
-
-
-
-        /// <summary>
-        /// Returns a response with filtered Users data according to the request.
-        /// The post request can be sent to the route api/Users/GetFiltered.
-        /// </summary>
-        /// <param name="request">A user query request to filter Users data.</param>
-        /// <returns>A success response with filtered user query response data if any, otherwise no content response.</returns>
-        [HttpPost("[action]")]
-        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
-        public async Task<IActionResult> GetFiltered(UserQueryRequest request)
-        {
-            var response = await _mediator.Send(request);
-            var list = await response.ToListAsync();
-            if (list.Any())
-                return Ok(list);
-            return NoContent();
         }
 	}
 }

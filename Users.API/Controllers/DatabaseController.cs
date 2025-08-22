@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using Users.APP.Domain;
 
@@ -12,14 +13,17 @@ namespace Users.API.Controllers
     public class DatabaseController : ControllerBase
     {
         private readonly UsersDb _db;
+        private readonly IWebHostEnvironment _environment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseController"/> class.
         /// </summary>
         /// <param name="db">The database context used for data operations.</param>
-        public DatabaseController(UsersDb db)
+        /// <param name="environment">The application environment which can be development, staging or production.</param>
+        public DatabaseController(UsersDb db, IWebHostEnvironment environment)
         {
             _db = db;
+            _environment = environment;
         }
 
         /// <summary>
@@ -33,6 +37,10 @@ namespace Users.API.Controllers
         [HttpGet, Route("~/api/SeedDb")]
         public IActionResult Seed()
         {
+            // If the running application's environment is not development, prevent seeding initial data to the database.
+            if (!_environment.IsDevelopment())
+                return BadRequest("The seed operation can only be performed in development environment!");
+
             // Remove all existing user-role relationships
             var userRoles = _db.UserRoles.ToList();
             _db.UserRoles.RemoveRange(userRoles);
@@ -48,6 +56,12 @@ namespace Users.API.Controllers
             // Remove all existing groups
             var groups = _db.Groups.ToList();
             _db.Groups.RemoveRange(groups);
+
+            // Reset the ID values of all tables so when a new record is inserted, ID will start from 1.
+            _db.Database.ExecuteSqlRaw("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='UserRoles';");
+            _db.Database.ExecuteSqlRaw("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='Roles';");
+            _db.Database.ExecuteSqlRaw("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='Users';");
+            _db.Database.ExecuteSqlRaw("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='Groups';");
 
             // Add default roles
             _db.Roles.Add(new Role()
@@ -113,7 +127,7 @@ namespace Users.API.Controllers
 
             _db.SaveChanges();
 
-            return Ok("Database seed successful.");
+            return Ok("Database seed in the development environment successful.");
         }
     }
 }

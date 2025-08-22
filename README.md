@@ -44,6 +44,8 @@ Note: Domain is for data access from a database, features are for business logic
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/CommandResponse.cs  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/ServiceBase.cs
 
+## I) Users Microservices: General topics explained in details in this file and project files.
+
 ## 4. Group Entity - Users.APP Project
 
 10. Create a new project under your solution as Class Library (.NET 8) and name it Users.APP.
@@ -338,7 +340,9 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 
 47. Right-click the Controllers folder then Add -> Controller -> Common -> API -> API Controller with actions, using Entity Framework 
     and select User entity as Model class, select UsersDb as DbContext class and give the name UsersController as Controller name:  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs  
+    https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
+    
+    Note: Add the action named GetFiltered at the bottom of the UsersController to apply filtering to Users data.
     
     Note: If you want to seed your database with initial test data, you can create a database contoller with a seed action:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/DatabaseController.cs
@@ -441,3 +445,32 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     Admin or User can execute this action. Then add [Authorize(Roles = "Admin")] attribute on top of the Get by ID, Post, Put and Delete actions 
     so that authenticated users with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
+
+65. To increase the security of APIs for the Production Environment, Cross-Origin Resource Sharing configuration can be added 
+    in the Program.cs of the Users.API Project:  
+    builder.Services.AddCors...  
+    app.UseCors...  
+    https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
+
+## 2) Locations Microservices: Source code shared in Locations.APP and Locations.API Projects, these projects are homeworks.
+
+Note: The JWT Authentication will be provided through Users.API, therefore JWT Authentication and validation configuration must be added 
+      in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in 
+      Users.API Project's Program.cs.  
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Program.cs  
+      For reference:  
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs  
+
+Note: Check and add missing injection configurations in the Program.cs of Locations.API for:  
+      DbContext: builder.Services.AddDbContext...  
+      Mediator: builder.Services.AddMediatR...  
+      Authentication: builder.Configuration["SecurityKey"]...  
+                      builder.Services.AddAuthentication...  
+      Swagger: builder.Services.AddSwaggerGen...  
+      CORS: builder.Services.AddCors...  
+      Authentication: app.UseAuthentication()  
+      CORS: app.UseCors()
+
+Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response 
+      with cities of a country having the country ID parameter value.  
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs

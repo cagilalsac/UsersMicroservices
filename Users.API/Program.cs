@@ -181,6 +181,29 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
+// ---------------------------------------------------------------
+// CORS (Cross-Origin Resource Sharing) for Production Environment
+// ---------------------------------------------------------------
+// Registers and configures CORS services for the application.
+// CORS is a security feature implemented by browsers to restrict cross-origin HTTP requests
+// initiated from scripts running in the browser. By default, web applications are not allowed
+// to make requests to a domain different from the one that served the web page.
+// The configuration below adds a default CORS policy that allows requests from any origin,
+// with any HTTP header, and any HTTP method. This is useful during development or for public APIs,
+// but should be restricted in production environments to specific origins for better security.
+// Usage:
+// - The policy is applied globally if app.UseCors() is called without parameters in the middleware pipeline.
+// - To restrict CORS, replace AllowAnyOrigin(), AllowAnyHeader(), and AllowAnyMethod() with more specific rules.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder => builder
+        .AllowAnyOrigin()   // Allows requests from any domain.
+        .AllowAnyHeader()   // Allows any HTTP headers in the request.
+        .AllowAnyMethod()); // Allows any HTTP method (GET, POST, PUT, DELETE, etc.).
+});
+
+
+
 var app = builder.Build();
 
 /// <summary>
@@ -188,15 +211,34 @@ var app = builder.Build();
 /// </summary>
 app.MapDefaultEndpoints();
 
+
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    /// <summary>
-    /// Enables Swagger middleware for generating and serving API documentation in the development environment.
-    /// </summary>
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Way 1: Enable Swagger for only the development environment.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+// Way 2: Enable Swagger for both development and production environments.
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// ASP.NET Core Environments:
+// The environment is development when the Users.API application is run from Visual Studio choosing a development profile from the
+// launchSettings.json file in the Properties folder of the Users.API Project.
+// When the Users.API application is run on a server or from Visual Studio choosing a production profile from the launchSettings.json
+// file, the environment is production.
+// In launchSettings.json, http profile was defined as Development through ASPNETCORE_ENVIRONMENT section, https profile's
+// ASPNETCORE_ENVIRONMENT value was changed to Production from Development for using the production environment.
+// The environments can be changed from the drop down list (selected as https) near the run button under the Visual Studio top menu
+// when running the application. Before, Users.API must be set as startup project from the drop down list at left of the run button.
+// If https (production environment) is selected, sections in appsettings.json will be used for configuration,
+// if http (development environment) is selected, sections in appsettings.Development.json will be used for configuration.
+// Therefore, same sections with some different values (such as connection string) must present in both files.
+// Environment configurations and usage is not a must for the development of applications.
+
+
 
 /// <summary>
 /// Enforces HTTPS redirection for all HTTP requests.
@@ -222,6 +264,15 @@ app.UseAuthorization();
 /// Maps controller endpoints to handle incoming HTTP requests.
 /// </summary>
 app.MapControllers();
+
+
+
+// ---------------------------------------------------------------
+// CORS (Cross-Origin Resource Sharing) for Production Environment
+// ---------------------------------------------------------------
+app.UseCors();
+
+
 
 /// <summary>
 /// Runs the application and starts listening for incoming HTTP requests.

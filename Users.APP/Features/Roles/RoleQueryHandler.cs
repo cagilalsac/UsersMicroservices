@@ -10,7 +10,7 @@ namespace Users.APP.Features.Roles
     {
     }
 
-    // response properties are created according to the data to be presented in APIs or UIs
+    // response properties are created according to the data to be presented in API responses or UIs
     public class RoleQueryResponse : Response
     {
         // copy all the non navigation properties from Role entity
