@@ -6,7 +6,7 @@ namespace Locations.APP.Domain
     public class City : Entity
     {
         [Required, StringLength(175)]
-        public string Name { get; set; }
+        public string CityName { get; set; }
 
         public int CountryId { get; set; }
 

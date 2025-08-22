@@ -441,9 +441,9 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
 
-64. Add the [Authorize(Roles = "Admin,User")] attribute on top of the Get action of the UsersController class so that authenticated users with role 
-    Admin or User can execute this action. Then add [Authorize(Roles = "Admin")] attribute on top of the Get by ID, Post, Put and Delete actions 
-    so that authenticated users with role Admin can execute these actions:  
+64. Add the [Authorize(Roles = "Admin,User")] attribute on top of the Get and GetFiltered actions of the UsersController class so that 
+    authenticated users with role Admin or User can execute these actions. Then add [Authorize(Roles = "Admin")] attribute on top of 
+    the Get by ID, Post, Put and Delete actions so that authenticated users with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
 
 65. To increase the security of APIs for the Production Environment, Cross-Origin Resource Sharing configuration can be added 
@@ -471,6 +471,20 @@ Note: Check and add missing injection configurations in the Program.cs of Locati
       Authentication: app.UseAuthentication()  
       CORS: app.UseCors()
 
+Note: Initial data for locations may be seeded through the DatabaseController of the Locations.API Project:  
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
+
 Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response 
       with cities of a country having the country ID parameter value.  
       https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs
+
+Note: Inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
+
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  
+      
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationInnerJoinQueryHandler.cs  
+      
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationLeftJoinQueryHandler.cs  
+
+      https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/LocationsController.cs

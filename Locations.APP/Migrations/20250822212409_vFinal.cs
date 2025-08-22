@@ -16,7 +16,7 @@ namespace Locations.APP.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 125, nullable: false),
+                    CountryName = table.Column<string>(type: "TEXT", maxLength: 125, nullable: false),
                     Guid = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -30,7 +30,7 @@ namespace Locations.APP.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 175, nullable: false),
+                    CityName = table.Column<string>(type: "TEXT", maxLength: 175, nullable: false),
                     CountryId = table.Column<int>(type: "INTEGER", nullable: false),
                     Guid = table.Column<string>(type: "TEXT", nullable: true)
                 },

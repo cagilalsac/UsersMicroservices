@@ -166,6 +166,25 @@ namespace CORE.APP.Services
 
 
 
+        // *** Relational Data Operations ***
+        /// <summary>
+        /// Provides a queryable, read-only interface to the specified related entity type in the database context.
+        /// This method is especially useful for performing join operations between the main entity of the service and other related entities.
+        /// The returned <see cref="IQueryable{TRelationalEntity}"/> can be used in LINQ queries for join operations
+        /// from multiple tables, enabling complex queries such as inner joins and left joins.
+        /// </summary>
+        /// <typeparam name="TRelationalEntity">
+        /// The type of the related entity to query. Must inherit from <see cref="Entity"/> and have a parameterless constructor.
+        /// </typeparam>
+        /// <returns>
+        /// An <see cref="IQueryable{TRelationalEntity}"/> for the specified entity type, with change tracking is disabled for improved read performance.
+        /// This can be composed in LINQ queries for join operations with other entity sets retrieved from this method.
+        /// </returns>
+        public IQueryable<TRelationalEntity> Query<TRelationalEntity>() where TRelationalEntity : Entity, new()
+        {
+            return _db.Set<TRelationalEntity>().AsNoTracking();
+        }
+
         /// <summary>
         /// Deletes a list of related entities of type <typeparamref name="TRelationalEntity"/> from the database context.
         /// </summary>
@@ -181,6 +200,10 @@ namespace CORE.APP.Services
         {
             _db.Set<TRelationalEntity>().RemoveRange(relationalEntities);
         }
+
+        // *** ***
+
+
 
         /// <summary>
         /// Releases the database context and any unmanaged resources.

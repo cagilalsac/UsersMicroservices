@@ -26,59 +26,37 @@ namespace Users.APP.Features.Users
         public List<int> RoleIds { get; set; } = new List<int>();
     }
 
+
+
     // response properties are created according to the data to be presented in API responses or UIs
     public class UserQueryResponse : Response 
     {
         // copy all the non navigation properties from User entity
         public string UserName { get; set; }
-
         public string Password { get; set; }
-
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
-
         public Genders Gender { get; set; }
-
         public DateTime? BirthDate { get; set; }
-
         public DateTime RegistrationDate { get; set; }
-
         public decimal Score { get; set; }
-
         public bool IsActive { get; set; }
-
         public string Address { get; set; }
-
         public int? CountryId { get; set; }
-
         public int? CityId { get; set; }
-        
         public int? GroupId { get; set; } 
-
         public List<int> RoleIds { get; set; }
-
-
 
         // add the new properties, some ending with F for the properties with the same name, for custom or formatted string values
         public string FullName { get; set; }
-
         public string GenderF { get; set; }
-
         public string BirthDateF { get; set; }
-
         public string RegistrationDateF { get; set; }
-
         public string ScoreF { get; set; }
-
         public string IsActiveF { get; set; }
-
         public string Country { get; set; }
-
         public string City { get; set; }
-
         public string Group { get; set; }
-
         public List<string> Roles { get; set; }
     }
 

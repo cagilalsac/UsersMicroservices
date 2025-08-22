@@ -22,15 +22,15 @@ namespace Locations.APP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasMaxLength(175)
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("CountryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Guid")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(175)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -46,12 +46,12 @@ namespace Locations.APP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Guid")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("CountryName")
                         .IsRequired()
                         .HasMaxLength(125)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Guid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

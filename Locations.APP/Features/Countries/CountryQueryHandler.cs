@@ -21,7 +21,7 @@ namespace Locations.APP.Features.Countries
     {
         protected override IQueryable<Country> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(country => country.Cities).OrderBy(country => country.Name);
+            return base.Query(isNoTracking).Include(country => country.Cities).OrderBy(country => country.CountryName);
         }
 
         public CountryQueryHandler(DbContext db) : base(db)
@@ -34,12 +34,12 @@ namespace Locations.APP.Features.Countries
             {
                 Id = country.Id,
                 Guid = country.Guid,
-                Name = country.Name,
-                Cities = country.Cities.OrderBy(city => city.Name).Select(city => new CityQueryResponse
+                Name = country.CountryName,
+                Cities = country.Cities.OrderBy(city => city.CityName).Select(city => new CityQueryResponse
                 {
                     Id = city.Id,
                     Guid = city.Guid,
-                    Name = city.Name
+                    Name = city.CityName
                 }).ToList()
             });
 

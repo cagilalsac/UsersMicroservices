@@ -7,7 +7,8 @@
     {
         /// <summary>
         /// Gets or sets the ID of the request.
+        /// Defined as virtual to allow overriding in derived classes.
         /// </summary>
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
     }
 }

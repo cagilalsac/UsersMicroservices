@@ -9,13 +9,15 @@
         /// <summary>
         /// Gets or sets the integer unique identifier of the response.
         /// Typically used to correlate responses with database entities.
+        /// Defined as virtual to allow overriding in derived classes.
         /// </summary>
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the string unique identifier of the response.
+        /// Defined as virtual to allow overriding in derived classes.
         /// </summary>
-        public string Guid { get; set; }
+        public virtual string Guid { get; set; }
 
         /// <summary>
         /// Constructor with parameter to set the Id from a sub (child) class
