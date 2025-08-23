@@ -544,3 +544,7 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/
 
 Add GetUserLocations action in the UsersController of the Users.API Project  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
+
+## V) Extra Client Application consuming Users and Locations Microservices
+
+You may develop a client application with React, Angular, ASP.NET Core MVC, etc. if you want.
