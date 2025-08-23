@@ -457,6 +457,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 Note: The JWT Authentication will be provided through Users.API, therefore JWT Authentication and validation configuration must be added 
 in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in Users.API Project's Program.cs.  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Program.cs  
+
 For reference:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs  
 
@@ -479,6 +480,8 @@ Note: Inner join and left outer join queries with filtering, paging and ordering
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
 
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  
+
+https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Extensions/StringExtensions.cs  
       
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationInnerJoinQueryHandler.cs  
       
