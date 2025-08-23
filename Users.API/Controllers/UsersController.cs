@@ -45,7 +45,7 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersGet Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGet.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGet."));
             }
         }
 
@@ -71,11 +71,11 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersGetById Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGetById.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGetById."));
             }
         }
 
-		// POST: api/Users
+        // POST: api/Users
         [HttpPost]
         [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute this action.
         public async Task<IActionResult> Post(UserCreateRequest request)
@@ -104,7 +104,7 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersPost Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPost.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPost."));
             }
         }
 
@@ -137,7 +137,7 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersPut Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPut.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPut."));
             }
         }
 
@@ -166,7 +166,7 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersDelete Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersDelete.")); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersDelete."));
             }
         }
 
@@ -188,5 +188,31 @@ namespace Users.API.Controllers
                 return Ok(list);
             return NoContent();
         }
-	}
+
+
+
+        /// <summary>
+        /// Retrieves a list of user location data, including countries and cities, by calling external APIs.
+        /// The GET request can be sent to the route api/Users/GetUserLocations.
+        /// </summary>
+        /// <remarks>
+        /// This action sends a <see cref="UserLocationQueryRequest"/> to the mediator, which fetches location data
+        /// from the specified Countries and Cities API endpoints. The response is returned as an HTTP 200 OK result
+        /// containing the list of locations.
+        /// </remarks>
+        /// <returns>
+        /// An <see cref="IActionResult"/> containing the list of user locations if successful.
+        /// </returns>
+        [HttpGet("[action]")]
+        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        public async Task<IActionResult> GetUserLocations()
+        {
+            var list = await _mediator.Send(new UserLocationQueryRequest
+            {
+                CountriesApiUrl = "https://localhost:7237/api/countries",
+                CitiesApiUrl = "https://localhost:7237/api/cities"
+            });
+            return Ok(list);
+        }
+    }
 }

@@ -10,7 +10,7 @@ namespace Locations.APP.Features.Cities
     public class CityCreateRequest : Request, IRequest<CommandResponse>
     {
         [Required, StringLength(175)]
-        public string Name { get; set; }
+        public string CityName { get; set; }
 
         public int CountryId { get; set; }
     }
@@ -23,12 +23,12 @@ namespace Locations.APP.Features.Cities
 
         public async Task<CommandResponse> Handle(CityCreateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(city => city.CityName.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(city => city.CityName.ToUpper() == request.CityName.ToUpper().Trim(), cancellationToken))
                 return Error("City with the same name exists!");
 
             var entity = new City
             {
-                CityName = request.Name.Trim(),
+                CityName = request.CityName.Trim(),
                 CountryId = request.CountryId
             };
 

@@ -10,7 +10,7 @@ namespace Locations.APP.Features.Countries
     public class CountryUpdateRequest : Request, IRequest<CommandResponse>
     {
         [Required, StringLength(125)]
-        public string Name { get; set; }
+        public string CountryName { get; set; }
     }
 
     public class CountryUpdateHandler : Service<Country>, IRequestHandler<CountryUpdateRequest, CommandResponse>
@@ -21,14 +21,14 @@ namespace Locations.APP.Features.Countries
 
         public async Task<CommandResponse> Handle(CountryUpdateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(country => country.Id != request.Id && country.CountryName.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(country => country.Id != request.Id && country.CountryName.ToUpper() == request.CountryName.ToUpper().Trim(), cancellationToken))
                 return Error("Country with the same name exists!");
 
             var entity = await Query().SingleOrDefaultAsync(country => country.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("Country not found!");
 
-            entity.CountryName = request.Name.Trim();
+            entity.CountryName = request.CountryName.Trim();
 
             Update(entity);
 

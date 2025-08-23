@@ -13,7 +13,7 @@ namespace Locations.APP.Features.Countries
 
     public class CountryQueryResponse : Response
     {
-        public string Name { get; set; }
+        public string CountryName { get; set; }
         public List<CityQueryResponse> Cities { get; set; }
     }
 
@@ -34,12 +34,12 @@ namespace Locations.APP.Features.Countries
             {
                 Id = country.Id,
                 Guid = country.Guid,
-                Name = country.CountryName,
+                CountryName = country.CountryName,
                 Cities = country.Cities.OrderBy(city => city.CityName).Select(city => new CityQueryResponse
                 {
                     Id = city.Id,
                     Guid = city.Guid,
-                    Name = city.CityName
+                    CityName = city.CityName
                 }).ToList()
             });
 

@@ -479,6 +479,8 @@ CORS: app.UseCors()
 Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response with cities of a country having the country ID parameter value.  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs
 
+Note: You need to set AppHost Project as the startup project so that you can send requests to the Users.API and Locations.API endpoints through the Aspire Dashboard.
+
 Note: Extra initial data seeding for locations can be found at:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
 
@@ -523,9 +525,22 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
     https: "localhost:7237" (first url defined at applicationUrl of the https profile)  
     http: "localhost:5024" (url defined at applicationUrl of the http profile)  
 
-    You can test the gateway after setting the AppHost Project as the startup project.  
+    You can run the gateway after setting the AppHost Project as the startup project letting you sending requests to Users.API and Locations.API endpoints.  
     You can send a request to the WeatherForecastController of Users.API by writing "test/users" after the localhost with port url 
     in the address bar of your browser. "test/locations" can be written to test the WeatherForecastController of Locations.API.  
  
     Now you can send requests from your client applications or Postman to the gateway. Unfortunaltey, you can't use Swagger to send requests 
     to the gateway with this project configuration, therefore launchSettings.json file in the Properties folder of the Gateway.API Project was modified.
+
+## IV) Extra Consuming Locations Microservices from User Microservices
+
+In Program.cs of the Users.API Project, add  
+"builder.Services.AddHttpContextAccessor();"  
+"builder.Services.AddHttpClient();"  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
+
+Create UserLocationQueryHandler in the Features/Users folder of the Users.APP Project  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Users/UserLocationQueryHandler.cs
+
+Add GetUserLocations action in the UsersController of the Users.API Project  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs

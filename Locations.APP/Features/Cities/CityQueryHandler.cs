@@ -14,7 +14,7 @@ namespace Locations.APP.Features.Cities
 
     public class CityQueryResponse : Response
     {
-        public string Name { get; set; }
+        public string CityName { get; set; }
 
         public CountryQueryResponse Country { get; set; }
     }
@@ -41,12 +41,12 @@ namespace Locations.APP.Features.Cities
             {
                 Id = city.Id,
                 Guid = city.Guid,
-                Name = city.CityName,
+                CityName = city.CityName,
                 Country = new CountryQueryResponse
                 {
                     Id = city.Country.Id,
                     Guid = city.Country.Guid,
-                    Name = city.Country.CountryName
+                    CountryName = city.Country.CountryName
                 }
             });
 

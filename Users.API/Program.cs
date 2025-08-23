@@ -121,6 +121,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 
+// -----------------------------------------------------------------------------
+// HTTP Context to be reached in non-controller classes via Dependency Injection
+// -----------------------------------------------------------------------------
+// Registers the IHttpContextAccessor service with the dependency injection container.
+// This service allows access to the current HttpContext (such as request headers, user identity, etc.)
+// from non-controller classes (e.g., services, handlers) via constructor injection of IHttpContextAccessor.
+// Useful for scenarios where you need to access HTTP-specific information outside of controllers or middleware.
+// Example usage: Retrieving the Authorization header in a MediatR handler to call external APIs on behalf of the user.
+builder.Services.AddHttpContextAccessor();
+
+
+
+// ------------------------------------
+// HTTP Client to consume external APIs
+// ------------------------------------
+// Registers the IHttpClientFactory service and enables dependency injection for HttpClient instances.
+// This allows the application to create and manage HttpClient objects efficiently, supporting features like
+// connection pooling, DNS updates, and resilience (e.g., retries, timeouts, and circuit breakers).
+// Typical usage: Inject IHttpClientFactory or HttpClient into services, handlers, or controllers to call external APIs.
+// Example: Used in UserLocationQueryHandler to fetch country and city data from external microservices.
+builder.Services.AddHttpClient();
+
+
+
 /// <summary>
 /// Adds controller support for handling HTTP API requests.
 /// </summary>
