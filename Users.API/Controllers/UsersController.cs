@@ -209,7 +209,10 @@ namespace Users.API.Controllers
         {
             var list = await _mediator.Send(new UserLocationQueryRequest
             {
+                // Gateway Countries API URL
                 CountriesApiUrl = "https://localhost:7237/api/countries",
+
+                // Gateway Cities API URL
                 CitiesApiUrl = "https://localhost:7237/api/cities"
             });
             return Ok(list);

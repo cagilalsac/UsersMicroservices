@@ -2,7 +2,7 @@
 
 Note: The development of Locations Microservices will not be explained. You need to develop it as homework while learning from the Users Microservices. 
       You also need to develop another Microservice Project for a different domain such as E-Trade, Movies, Books, etc. including the 
-      Users and Locations Microservices. Users and Locations diagrams with some project example diagrams can be found at:  
+      Users and optionally Locations Microservices. Users and Locations diagrams with some project example diagrams can be found at:  
       https://need4code.com/DotNet?path=.NET%5C00_Files%5CProjects%5CDiagrams.jpg
 
 Note: A simplified version of the Clean Architecture and Repository Pattern that include the basic concepts and structures 
