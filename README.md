@@ -454,6 +454,12 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 
 ## II) Locations Microservices: Source code shared in Locations.APP and Locations.API Projects, these projects are homeworks.
 
+Note: Homework includes:  
+APP Domain: Country and City entities with LocationsDbContext  
+APP Features: Country and City query, create, update and delete handlers, requests and query responses  
+API Controllers: Country and city controllers with get (authorized anonymous), post (authorized for admin role), put (authorized for admin role) 
+and delete (authorized for admin role) actions, including GetByCountryId (authorized anonymous) action in cities controller.  
+
 Note: The JWT Authentication will be provided through Users.API, therefore JWT Authentication and validation configuration must be added 
 in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in Users.API Project's Program.cs.  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Program.cs  
@@ -470,13 +476,13 @@ CORS: builder.Services.AddCors...
 Authentication: app.UseAuthentication()  
 CORS: app.UseCors()
 
-Note: Initial data for locations may be seeded through the DatabaseController of the Locations.API Project:  
-https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
-
 Note: The GetByCountryId action is added at the bottom of the CitiesController to return a response with cities of a country having the country ID parameter value.  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/CitiesController.cs
 
-Note: Inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
+Note: Extra initial data seeding for locations can be found at:  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
+
+Note: Extra inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
 
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  
@@ -488,3 +494,38 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Featu
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.APP/Features/Locations/LocationLeftJoinQueryHandler.cs  
 
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/LocationsController.cs
+
+## III) Gateway.API
+
+66.	Create a new project under the solution named Gateway.API, search for web api and select ASP.NET Core Web API template, 
+    select .NET 8 as the Framework, Authentication type as None, check Configure for HTTPS, do not check Enable OpenAPI support, 
+    do not check Use controllers and check Enlist in .NET Aspire orchestration.
+
+67.	Right click on the Gateway.API project then click Manage NuGet Packages. Under the Browse tab search for Ocelot and install the latest version.
+
+68. Create the ocelot.json file in the Gateway.API project:  
+    https://github.com/cagilalsac/UsersMicroservices/tree/master/Gateway.API/ocelot.json
+
+    You can get the Host and Port of DownstreamHostAndPorts section from the launchSettings.json files which are under the Properties folder of 
+    Users.API and Locations.API. If you are running your solution with https, look for the https profile and use the first url defined at 
+    applicationUrl section which are for our solution "localhost:7043" for Users.API, and "localhost:7018" for Locations.API. 
+    If you are running your solution with http, look for the http profile and use the url defined at applicationUrl section which are for our solution 
+    "localhost:5021" for Users.API, and "localhost:5038" for Locations.API.  
+    Now you can reach all of the users and locations endpoints defined in the ocelot.json file through this gateway.
+
+69.	Open the Program.cs file of the Gateway.API and add:  
+    "builder.Configuration.AddJsonFile("ocelot.json");"  
+    "builder.Services.AddOcelot();"  
+    "await app.UseOcelot();"  
+    https://github.com/cagilalsac/UsersMicroservices/tree/master/Gateway.API/Program.cs
+
+70.	You can get the url of the Gateway.API from the launchSettings.json file under the Properties folder which is for our solution  
+    https: "localhost:7237" (first url defined at applicationUrl of the https profile)  
+    http: "localhost:5024" (url defined at applicationUrl of the http profile)  
+
+    You can test the gateway after setting the AppHost Project as the startup project.  
+    You can send a request to the WeatherForecastController of Users.API by writing "test/users" after the localhost with port url 
+    in the address bar of your browser. "test/locations" can be written to test the WeatherForecastController of Locations.API.  
+ 
+    Now you can send requests from your client applications or Postman to the gateway. Unfortunaltey, you can’t use Swagger to send requests 
+    to the gateway with this project configuration, therefore launchSettings.json file in the Properties folder of the Gateway.API Project was modified.
