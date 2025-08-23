@@ -510,7 +510,7 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
     Users.API and Locations.API. If you are running your solution with https, look for the https profile and use the first url defined at 
     applicationUrl section which are for our solution "localhost:7043" for Users.API, and "localhost:7018" for Locations.API. 
     If you are running your solution with http, look for the http profile and use the url defined at applicationUrl section which are for our solution 
-    "localhost:5021" for Users.API, and "localhost:5038" for Locations.API.  
+    "localhost:5021" for Users.API, and "localhost:5038" for Locations.API. 
     Now you can reach all of the users and locations endpoints defined in the ocelot.json file through this gateway.
 
 69.	Open the Program.cs file of the Gateway.API and add:  
@@ -527,5 +527,5 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
     You can send a request to the WeatherForecastController of Users.API by writing "test/users" after the localhost with port url 
     in the address bar of your browser. "test/locations" can be written to test the WeatherForecastController of Locations.API.  
  
-    Now you can send requests from your client applications or Postman to the gateway. Unfortunaltey, you can’t use Swagger to send requests 
+    Now you can send requests from your client applications or Postman to the gateway. Unfortunaltey, you can't use Swagger to send requests 
     to the gateway with this project configuration, therefore launchSettings.json file in the Properties folder of the Gateway.API Project was modified.
