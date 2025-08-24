@@ -139,7 +139,8 @@ Note: Domain is for data access from a database, features are for business logic
       |  
       ActionResult: base class that implements IActionResult  
       |  
-      OkObjectResult (returned by Ok method) - NotFoundResult (returned by NotFound method) - BadRequestObjectResult (returned by BadRequest method)
+      OkObjectResult (returned by Ok method) - NotFoundResult (returned by NotFound method) -  
+      BadRequestObjectResult (returned by BadRequest method) - etc.
     
 ## 4. Group Entity - Users.APP Project
 
