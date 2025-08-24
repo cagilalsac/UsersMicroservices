@@ -66,7 +66,8 @@ namespace Users.API.Controllers
             |  
             ActionResult: base class that implements IActionResult  
             |  
-            OkObjectResult (returned by Ok method) - NotFoundResult (returned by NotFound method) - BadRequestObjectResult (returned by BadRequest method)
+            OkObjectResult (returned by Ok method) - NotFoundResult (returned by NotFound method) - 
+            BadRequestObjectResult (returned by BadRequest method) - etc.
             */
         }
 
