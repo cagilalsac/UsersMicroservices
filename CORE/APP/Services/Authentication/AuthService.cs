@@ -5,8 +5,9 @@ namespace CORE.APP.Services.Authentication
     /// <summary>
     /// Base abstract class that can be used in all authentication sub (child) concrete classes 
     /// which defines authentication-related operation for generating user claims.
+    /// Inherits from <see cref="ServiceBase"/> to utilize culture-specific settings with basic success and error command response operations.
     /// </summary>
-    public abstract class AuthService
+    public abstract class AuthService : ServiceBase
     {
         /// <summary>
         /// Generates a list of claims for a user based on their ID, username, and assigned role names.

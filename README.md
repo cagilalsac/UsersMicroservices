@@ -6,7 +6,7 @@ Note: The development of Locations Microservices will not be explained. You need
       https://need4code.com/DotNet?path=.NET%5C00_Files%5CProjects%5CDiagrams.jpg
 
 Note: A simplified version of the Clean Architecture and Repository Pattern that include the basic concepts and structures 
-      are applied to the project for learning purposes. More information about Clean Architecture and other architectures can be found at:  
+      are applied to the project. More information about Clean Architecture and other architectures can be found at:  
       https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
 
 Note: Domain is for data access from a database, features are for business logic and API is for presentation. 
@@ -535,13 +535,18 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
 
 ## IV) Extra Consuming Locations Microservices from User Microservices
 
-In Program.cs of the Users.API Project, add  
-"builder.Services.AddHttpContextAccessor();"  
-"builder.Services.AddHttpClient();"  
-https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
+Create the HttpServiceBase and HttpService classes in the CORE Project's APP/Services/HTTP folder:  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/HTTP/HttpServiceBase.cs  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/HTTP/HttpService.cs
 
 Create UserLocationQueryHandler in the Features/Users folder of the Users.APP Project  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Users/UserLocationQueryHandler.cs
+
+In Program.cs of the Users.API Project, add  
+"builder.Services.AddHttpContextAccessor();"  
+"builder.Services.AddHttpClient();"  
+"builder.Services.AddScoped<HttpServiceBase, HttpService>();"  
+https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
 Add GetUserLocations action in the UsersController of the Users.API Project  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs

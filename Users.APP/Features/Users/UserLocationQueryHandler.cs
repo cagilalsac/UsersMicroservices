@@ -1,10 +1,8 @@
 ﻿using CORE.APP.Models;
 using CORE.APP.Services;
+using CORE.APP.Services.HTTP;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using Users.APP.Domain;
 
@@ -55,75 +53,44 @@ namespace Users.APP.Features.Users
     }
 
     /// <summary>
-    /// Handles user location queries by retrieving user data and enriching it with country and city names from external APIs.
+    /// Handles user location queries by retrieving user data from the database and enriching it with country and city names
+    /// fetched from external APIs. Inherits from <see cref="Service{User}"/> for database operations and implements
+    /// <see cref="IRequestHandler{UserLocationQueryRequest, List{UserLocationQueryResponse}}"/> for MediatR request handling.
     /// </summary>
     public class UserLocationQueryHandler : Service<User>, IRequestHandler<UserLocationQueryRequest, List<UserLocationQueryResponse>>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpServiceBase _httpService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserLocationQueryHandler"/> class.
         /// </summary>
-        /// <param name="db">The database context.</param>
-        /// <param name="httpContextAccessor">The HTTP context accessor for retrieving request headers.</param>
-        /// <param name="httpClientFactory">The HTTP client factory for creating HTTP clients.</param>
-        public UserLocationQueryHandler(DbContext db, IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory) : base(db)
+        /// <param name="db">The database context used for querying user data.</param>
+        /// <param name="httpService">The HTTP service used to fetch country and city data from external APIs.</param>
+        public UserLocationQueryHandler(DbContext db, HttpServiceBase httpService) : base(db)
         {
-            _httpContextAccessor = httpContextAccessor;
-            _httpClientFactory = httpClientFactory;
+            _httpService = httpService;
         }
 
         /// <summary>
-        /// Handles the user location query request by fetching users and enriching their data with country and city names from external APIs.
+        /// Handles the user location query request by fetching user data from the database and enriching it
+        /// with country and city names obtained from external APIs.
         /// </summary>
-        /// <param name="request">The user location query request containing API URLs.</param>
-        /// <param name="cancellationToken">A cancellation token.</param>
+        /// <param name="request">The request containing API URLs for countries and cities.</param>
+        /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
         /// <returns>A list of <see cref="UserLocationQueryResponse"/> objects with user and location details.</returns>
         public async Task<List<UserLocationQueryResponse>> Handle(UserLocationQueryRequest request, CancellationToken cancellationToken)
         {
-            // Initialize the result list
-            var users = new List<UserLocationQueryResponse>();
+            // Fetch the list of countries from the external countries API.
+            // Each CountryApiResponse contains country details such as Id and CountryName.
+            var countries = await _httpService.GetFromJson<CountryApiResponse>(request.CountriesApiUrl, cancellationToken);
 
-            // Prepare variables for API tokens and HTTP clients
-            string countriesApiToken, citiesApiToken;
-            HttpClient countriesHttpClient, citiesHttpClient;
+            // Fetch the list of cities from the external cities API.
+            // Each CityApiResponse contains city details such as Id and CityName.
+            var cities = await _httpService.GetFromJson<CityApiResponse>(request.CitiesApiUrl, cancellationToken);
 
-            // If either API URL is missing, return an empty list
-            if (string.IsNullOrWhiteSpace(request.CountriesApiUrl) || string.IsNullOrWhiteSpace(request.CitiesApiUrl))
-                return users;
-
-            // Retrieve the Authorization header of the current request for the countries API
-            countriesApiToken = _httpContextAccessor.HttpContext?.Request?.Headers?.Authorization.FirstOrDefault();
-            countriesHttpClient = _httpClientFactory.CreateClient();
-            if (!string.IsNullOrWhiteSpace(countriesApiToken))
-            {
-                // Remove the "Bearer" prefix if present
-                if (countriesApiToken.StartsWith(JwtBearerDefaults.AuthenticationScheme))
-                    countriesApiToken = countriesApiToken.Remove(0, JwtBearerDefaults.AuthenticationScheme.Length).TrimStart();
-                // Add the token to the HTTP client Authorization header
-                countriesHttpClient.DefaultRequestHeaders.Add("Authorization", countriesApiToken);
-            }
-
-            // Retrieve the Authorization header of the current request for the cities API
-            citiesApiToken = _httpContextAccessor.HttpContext?.Request?.Headers?.Authorization.FirstOrDefault();
-            citiesHttpClient = _httpClientFactory.CreateClient();
-            if (!string.IsNullOrWhiteSpace(citiesApiToken))
-            {
-                // Remove the "Bearer" prefix if present
-                if (citiesApiToken.StartsWith(JwtBearerDefaults.AuthenticationScheme))
-                    citiesApiToken = citiesApiToken.Remove(0, JwtBearerDefaults.AuthenticationScheme.Length).TrimStart();
-                // Add the token to the HTTP client Authorization header
-                citiesHttpClient.DefaultRequestHeaders.Add("Authorization", citiesApiToken);
-            }
-
-            // Fetch the list of countries from the external API
-            var countries = await countriesHttpClient.GetFromJsonAsync<List<CountryApiResponse>>(request.CountriesApiUrl, cancellationToken);
-            // Fetch the list of cities from the external API
-            var cities = await citiesHttpClient.GetFromJsonAsync<List<CityApiResponse>>(request.CitiesApiUrl, cancellationToken);
-
-            // Query users from the database and project to response objects
-            users = await Query().Select(userEntity => new UserLocationQueryResponse
+            // Query the users from the database and project them into UserLocationQueryResponse objects.
+            // Only user entity properties with city and country ID properties are set at this stage.
+            var users = await Query().Select(userEntity => new UserLocationQueryResponse
             {
                 Id = userEntity.Id,
                 Guid = userEntity.Guid,
@@ -134,18 +101,20 @@ namespace Users.APP.Features.Users
                 CountryId = userEntity.CountryId
             }).ToListAsync(cancellationToken);
 
-            // Enrich each user with city and country names from the API responses
+            // For each user, enrich the response with the corresponding city and country names
+            // by matching the user's CityId and CountryId with the fetched city and country lists from external APIs.
             foreach (var user in users)
             {
-                // Find the city name by CityId
+                // Find the city name for the user's CityId; set to empty string if not found.
                 user.City = cities.FirstOrDefault(city => city.Id == user.CityId) == null ? string.Empty
                     : cities.FirstOrDefault(city => city.Id == user.CityId).CityName;
-                // Find the country name by CountryId
+
+                // Find the country name for the user's CountryId; set to empty string if not found.
                 user.Country = countries.FirstOrDefault(country => country.Id == user.CountryId) == null ? string.Empty
                     : countries.FirstOrDefault(country => country.Id == user.CountryId).CountryName;
             }
 
-            // Return the enriched user list
+            // Return the list of enriched user location responses.
             return users;
         }
     }

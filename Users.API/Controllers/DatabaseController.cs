@@ -85,7 +85,7 @@ namespace Users.API.Controllers
                     {
                         Address = "Çankaya",
                         BirthDate = new DateTime(1980, 8, 21),
-                        CityId = 1,
+                        CityId = 6,
                         CountryId = 1,
                         FirstName = "Çağıl",
                         Gender = Genders.Man,
@@ -105,7 +105,7 @@ namespace Users.API.Controllers
                     new User()
                     {
                         BirthDate = DateTime.Parse("09/13/2004", new CultureInfo("en-US")),
-                        CityId = 1,
+                        CityId = 82,
                         CountryId = 2,
                         FirstName = "Luna",
                         Gender = Genders.Woman,

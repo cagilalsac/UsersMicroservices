@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 namespace CORE.APP.Services
 {
     /// <summary>
-    /// Provides a generic base repository service for handling CRUD operations on entities.
+    /// Provides a generic base repository service for handling CRUD operations on entities implementing Repository Pattern.
     /// This abstract class defines common database actions such as query, create, update, and delete,
     /// and is designed to work with a specific <typeparamref name="TEntity"/> type.
-    /// Instead of a base Service class, a concrete Repository class with the same structure can also be created 
-    /// and can be injected to the Services or Handlers for database operations. 
+    /// Inherits from <see cref="ServiceBase"/> to utilize culture-specific settings with basic success and error command response operations.
+    /// Instead of a base Service class, a concrete Repository class implementing an IRepository interface with the same implementations 
+    /// can also be created, and can be injected to the Services or Handlers for database operations. 
     /// If you prefer to do so, remember to inject the Repository class in the IoC Container of the Program.cs as
-    /// builder.Services.AddScoped(typeof(Repository<>));
-    /// The reason we are not injecting Repository object in this project is to simplify the project for learning purposes.
+    /// builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     /// </summary>
     /// <typeparam name="TEntity">
-    /// The entity type the service operates on. Must inherit from <see cref="Entity"/> 
-    /// and have a parameterless constructor.
+    /// The entity type the service operates on. Must inherit from <see cref="Entity"/> and have a parameterless constructor.
     /// </typeparam>
     public abstract class Service<TEntity> : ServiceBase, IDisposable where TEntity : Entity, new()
     {

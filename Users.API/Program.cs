@@ -1,4 +1,5 @@
 using CORE.APP.Services.Authentication;
+using CORE.APP.Services.HTTP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -121,9 +122,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 
-// -----------------------------------------------------------------------------
-// HTTP Context to be reached in non-controller classes via Dependency Injection
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+// HTTP Context to be reached in non-controller classes (e.g. HttpServiceBase) via Dependency Injection
+// ----------------------------------------------------------------------------------------------------
 // Registers the IHttpContextAccessor service with the dependency injection container.
 // This service allows access to the current HttpContext (such as request headers, user identity, etc.)
 // from non-controller classes (e.g., services, handlers) via constructor injection of IHttpContextAccessor.
@@ -133,15 +134,25 @@ builder.Services.AddHttpContextAccessor();
 
 
 
-// ------------------------------------
-// HTTP Client to consume external APIs
-// ------------------------------------
+// --------------------------------------------------------------------
+// HTTP Client to consume external APIs (e.g. in HttpServiceBase class)
+// --------------------------------------------------------------------
 // Registers the IHttpClientFactory service and enables dependency injection for HttpClient instances.
 // This allows the application to create and manage HttpClient objects efficiently, supporting features like
 // connection pooling, DNS updates, and resilience (e.g., retries, timeouts, and circuit breakers).
 // Typical usage: Inject IHttpClientFactory or HttpClient into services, handlers, or controllers to call external APIs.
 // Example: Used in UserLocationQueryHandler to fetch country and city data from external microservices.
 builder.Services.AddHttpClient();
+
+
+
+// Registers the HttpService as a scoped service for the HttpServiceBase abstract base class.
+// Lifetime: Scoped (one instance per HTTP request).
+// Usage: Any dependency requesting HttpServiceBase will receive an instance of HttpService within the same HTTP request.
+// Rationale: HttpServiceBase and its derived classes depend on IHttpContextAccessor and may access per-request data (such as user identity or headers).
+// Using a scoped lifetime ensures each HTTP request gets its own instance, providing safe access to the current HttpContext and preventing cross-request data leakage.
+// Note: This approach allows you to inject HttpServiceBase in constructors, supporting abstraction and easier testing if needed.
+builder.Services.AddScoped<HttpServiceBase, HttpService>();
 
 
 
