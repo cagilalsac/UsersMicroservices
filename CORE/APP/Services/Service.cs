@@ -34,6 +34,14 @@ namespace CORE.APP.Services
 
 
 
+        /*
+        Synchronous methods execute tasks one after another. Each operation must complete before the next one starts. The calling thread 
+        waits (or "blocks") until the method finishes.
+        Asynchronous methods allow tasks to run in the background. The calling thread does not wait for the operation to finish and 
+        can continue executing other code. In C#, asynchronous methods often use the async and await keywords, enabling non-blocking operations 
+        (such as I/O or database calls) and improving application responsiveness.
+        */
+
         // *** Synchronous Repository Operations ***
 
         /// <summary>
