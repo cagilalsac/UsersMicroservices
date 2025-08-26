@@ -103,6 +103,12 @@ Note: Domain is for data access from a database, features are for business logic
     response class in GroupQueryResponse.cs and handler class in GroupQueryHandler.cs.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Groups/GroupQueryHandler.cs
 
+    - Synchronous methods execute tasks one after another. Each operation must complete before the next one starts. The calling thread 
+      waits (or "blocks") until the method finishes.  
+      Asynchronous methods allow tasks to run in the background. The calling thread does not wait for the operation to finish and 
+      can continue executing other code. In C#, asynchronous methods often use the async and await keywords, enabling non-blocking operations 
+      (such as I/O or database calls) and improving application responsiveness.
+
 ## 4. Group Entity - Users.API Project
 
 25. Add "builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserService).Assembly));" in Program.cs:  
