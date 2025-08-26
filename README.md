@@ -33,16 +33,16 @@ Note: Domain is for data access from a database, features are for business logic
    
 ## 3. CORE Project
 
-7. In Solution Explorer, create a new project called CORE (Class Library, .NET 8.0).
+7. Right-click the solution in Solution Explorer, then Add -> New Project to create a project named CORE as a Class Library with .NET 8.0.
 
 8. Set Nullable to Disable for all class library projects (via project properties or XML).
 
 9. Create the folders and classes under the CORE project as below:  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Domain/Entity.cs  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Request.cs  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Response.cs  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/CommandResponse.cs  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/ServiceBase.cs
+   https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Domain/Entity.cs  
+   https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Request.cs  
+   https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Response.cs  
+   https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/CommandResponse.cs  
+   https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/ServiceBase.cs
 
 ## I) Users Microservices: General topics explained in details in this file and project files.
 
