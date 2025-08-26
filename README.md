@@ -80,7 +80,7 @@ Note: Domain is for data access from a database, features are for business logic
 20. Open appsettings.json and add the ConnectionStrings section:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/appsettings.json
  
-21. Open Program.cs and add "builder.Services.AddDbContext<UsersDb>(options => options.UseSqlite(builder.Configuration.GetConnectionString("UsersDb")));":  
+21. Open Program.cs and add builder.Services.AddDbContext...  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
 22. Create your UsersDB database using migrations:  
@@ -111,7 +111,7 @@ Note: Domain is for data access from a database, features are for business logic
 
 ## 4. Group Entity - Users.API Project
 
-25. Add "builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserService).Assembly));" in Program.cs:  
+25. Add builder.Services.AddMediatR... in Program.cs:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
     - Service Lifetimes in ASP.NET Core Dependency Injection:  
