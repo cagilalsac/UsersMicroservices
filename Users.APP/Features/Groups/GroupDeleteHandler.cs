@@ -7,7 +7,7 @@ using Users.APP.Domain;
 namespace Users.APP.Features.Groups
 {
     /// <summary>
-    /// Represents a request to delete a group.
+    /// Represents a request model to delete a Group entity.
     /// Inherits from the base <see cref="Request"/> class and implements <see cref="IRequest{CommandResponse}"/>.
     /// </summary>
     public class GroupDeleteRequest : Request, IRequest<CommandResponse>

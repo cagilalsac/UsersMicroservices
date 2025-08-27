@@ -66,7 +66,7 @@ builder.Services.AddSingleton<ITokenAuthService, TokenAuthService>();
  *    - Lifetime: Scoped to a single HTTP request (or scope).
  *    - Behavior: Creates one instance of the service per HTTP request.
  *    - Use case: Use when you want to maintain state or dependencies that last only during a single request.
- *    - Example: DbContext, which should be shared across operations within a request.
+ *    - Example: DbContext, which should be shared across operations within a request, generally added with AddDbContext method.
  *
  * 2. AddSingleton:
  *    - Lifetime: Singleton for the entire application lifetime.

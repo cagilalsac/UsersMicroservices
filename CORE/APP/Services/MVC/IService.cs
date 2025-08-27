@@ -23,7 +23,7 @@ namespace CORE.APP.Services
         /// <returns>
         /// A list of <typeparamref name="TResponse"/> objects representing all records.
         /// </returns>
-        public List<TResponse> GetList();
+        public List<TResponse> GetList(); // public may not be written
 
         /// <summary>
         /// Retrieves a single item by its unique identifier.
@@ -41,7 +41,7 @@ namespace CORE.APP.Services
         /// <returns>
         /// A <typeparamref name="TRequest"/> object representing the specified item.
         /// </returns>
-        public TRequest GetItemForEdit(int id);
+        public TRequest GetItemToUpdate(int id);
 
         /// <summary>
         /// Creates a new item in the data source using the provided request data.

@@ -103,6 +103,15 @@ Note: Domain is for data access from a database, features are for business logic
     response class in GroupQueryResponse.cs and handler class in GroupQueryHandler.cs.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Groups/GroupQueryHandler.cs
 
+    - Handler classes are business logic classes that first get entity data from the database through the database class (UsersDb), 
+      which inherits Entity Framework Core's DbContext class for data access, convert the data to the response model object 
+      and return the response model object to the controller action for presentation (query).  
+      Secondly, handler classes get request model data from the controller action, convert the data to the entity object for create 
+      and update operations, or use unique identifier (ID) for delete operation, in the database. Then they return a response model object 
+      to the controller action to present the result of the operation (create, update and delete).
+
+    - Request and response model classes are also called Data Transfer Object (DTO) classes.
+    
     - Synchronous methods execute tasks one after another. Each operation must complete before the next one starts. The calling thread 
       waits (or "blocks") until the method finishes.  
       Asynchronous methods allow tasks to run in the background. The calling thread does not wait for the operation to finish and 
@@ -114,28 +123,6 @@ Note: Domain is for data access from a database, features are for business logic
 25. Add builder.Services.AddMediatR... in Program.cs:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
-    - Service Lifetimes in ASP.NET Core Dependency Injection:  
-      I) AddScoped:  
-      Lifetime: Scoped to a single HTTP request (or scope).  
-      Behavior: Creates one instance of the service per HTTP request.  
-      Use case: Use when you want to maintain state or dependencies that last only during a single request.  
-      Example: DbContext, which should be shared across operations within a request.
-      
-      II) AddSingleton:  
-      Lifetime: Singleton for the entire application lifetime.  
-      Behavior: Creates only one instance of the service for the whole app lifecycle.  
-      Use case: Use for stateless services or global shared data/services.  
-      Example: Caching services, configuration providers, logging services.
-      
-      III) AddTransient:  
-      Lifetime: Transient (short-lived).  
-      Behavior: Creates a new instance every time the service is requested.  
-      Use case: Use for lightweight, stateless services that are cheap to create.  
-      Example: Utility/helper classes without state.
-      
-      Notes:  
-      Injecting a Scoped service into a Singleton can cause issues due to lifetime mismatch. ASP.NET Core DI container will warn about such mismatches.
- 
 26. Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the GroupsController, 
     implement the Mediator injection and Get methods:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
@@ -155,7 +142,10 @@ Note: Domain is for data access from a database, features are for business logic
     and handler class in GroupCreateHandler.cs.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Groups/GroupCreateHandler.cs
  
-    - Some commonly used data annotation attributes in C#:  
+    - Attributes gain new features to the fields, properties, methods or classes. When they are used in entities or requests, 
+      they are also called data annotations which provide data validations.
+    
+      Some commonly used data annotation attributes in C#:  
       [Required]           // Ensures the property must have a value.  
     
       [StringLength]       // Sets maximum (and optionally minimum) length for strings.  
@@ -190,7 +180,7 @@ Note: Domain is for data access from a database, features are for business logic
       where {0} is the DisplayName (used in MVC) if defined otherwise property name, {1} is the first parameter which is 100 and 
       {2} is the second parameter which is 3.
 
-    - Some LINQ methods for querying data (async versions already exists):  
+    - Some LINQ (Language Integrated Query) methods for querying data (async versions already exists):  
       Find: Finds an entity with the given primary key value. Returns null if not found.  
       Uses the database context's cache before querying the database.  
       Example: var group = _db.Groups.Find(5);  
@@ -409,6 +399,28 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     builder.Services.AddSwaggerGen...  
     app.UseAuthentication...  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
+
+    - Service Lifetimes in ASP.NET Core Dependency Injection:  
+      I) AddScoped:  
+      Lifetime: Scoped to a single HTTP request (or scope).  
+      Behavior: Creates one instance of the service per HTTP request.  
+      Use case: Use when you want to maintain state or dependencies that last only during a single request.  
+      Example: DbContext, which should be shared across operations within a request, generally added with AddDbContext method.
+      
+      II) AddSingleton:  
+      Lifetime: Singleton for the entire application lifetime.  
+      Behavior: Creates only one instance of the service for the whole app lifecycle.  
+      Use case: Use for stateless services or global shared data/services.  
+      Example: Caching services, configuration providers, logging services.
+      
+      III) AddTransient:  
+      Lifetime: Transient (short-lived).  
+      Behavior: Creates a new instance every time the service is requested.  
+      Use case: Use for lightweight, stateless services that are cheap to create.  
+      Example: Utility/helper classes without state.
+      
+      Notes:  
+      Injecting a Scoped service into a Singleton can cause issues due to lifetime mismatch. ASP.NET Core DI container will warn about such mismatches.
     
 60. Add Issuer, Audience and TokenMessage sections to appsettings.json:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/appsettings.json

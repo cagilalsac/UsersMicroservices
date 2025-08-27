@@ -8,7 +8,7 @@ using Users.APP.Domain;
 namespace Users.APP.Features.Groups
 {
     /// <summary>
-    /// Represents a request to update an existing group.
+    /// Represents a request model (DTO: Data Trasfer Object) to update an existing Group entity.
     /// Inherits from <see cref="Request"/> and implements <see cref="IRequest{CommandResponse}"/> for MediatR integration.
     /// </summary>
     public class GroupUpdateRequest : Request, IRequest<CommandResponse>
