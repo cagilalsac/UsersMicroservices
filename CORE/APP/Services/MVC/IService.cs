@@ -23,25 +23,25 @@ namespace CORE.APP.Services
         /// <returns>
         /// A list of <typeparamref name="TResponse"/> objects representing all records.
         /// </returns>
-        public List<TResponse> GetList(); // public may not be written
+        public List<TResponse> List(); // public may not be written
 
         /// <summary>
-        /// Retrieves a single item by its unique identifier.
+        /// Retrieves a single response item by its unique identifier.
         /// </summary>
-        /// <param name="id">The unique identifier of the item to retrieve.</param>
+        /// <param name="id">The unique identifier of the response item to retrieve.</param>
         /// <returns>
-        /// A <typeparamref name="TResponse"/> object representing the specified item.
+        /// A <typeparamref name="TResponse"/> object representing the specified response item.
         /// </returns>
-        public TResponse GetItem(int id);
+        public TResponse Item(int id);
 
         /// <summary>
-        /// Retrieves a single item by its unique identifier.
+        /// Retrieves a single request item by its unique identifier.
         /// </summary>
-        /// <param name="id">The unique identifier of the item to retrieve.</param>
+        /// <param name="id">The unique identifier of the request item to retrieve.</param>
         /// <returns>
-        /// A <typeparamref name="TRequest"/> object representing the specified item.
+        /// A <typeparamref name="TRequest"/> object representing the specified request item.
         /// </returns>
-        public TRequest GetItemToUpdate(int id);
+        public TRequest Edit(int id);
 
         /// <summary>
         /// Creates a new item in the data source using the provided request data.
@@ -62,11 +62,11 @@ namespace CORE.APP.Services
         public CommandResponse Update(TRequest request);
 
         /// <summary>
-        /// Deletes an existing item from the data source by its unique identifier.
+        /// Deletes an existing entity from the data source by its unique identifier.
         /// </summary>
-        /// <param name="id">The unique identifier of the item to delete.</param>
+        /// <param name="id">The unique identifier of the entity to delete.</param>
         /// <returns>
-        /// A <see cref="CommandResponse"/> object indicating the result of the deletion operation.
+        /// A <see cref="CommandResponse"/> object indicating the result of the delete operation.
         /// </returns>
         public CommandResponse Delete(int id);
     }

@@ -59,7 +59,7 @@ namespace Users.APP.Features.Groups
                 && groupEntity.Title.ToUpper() == request.Title.ToUpper().Trim(), cancellationToken))
                 return Error("Group with the same title exists!");
 
-            // Attempt to find the group entity by its ID, if not found return error command respnse with message.
+            // Attempt to find the group entity by its ID, if not found return error command response with message.
             var entity = await _db.Groups.FindAsync(request.Id, cancellationToken);
             if (entity is null)
                 return Error("Group not found!");

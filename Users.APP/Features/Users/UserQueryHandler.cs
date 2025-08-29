@@ -68,7 +68,7 @@ namespace Users.APP.Features.Users
     {
         public UserQueryHandler(DbContext db) : base(db)
         {
-            // if the culture of the application is needed to be changed for this service, below assignment can be made:
+            // if the culture of the application is needed to be changed for this handler, below assignment can be made:
             //CultureInfo = new CultureInfo("tr-TR"); default culture is defined as "en-US" in the base service class
         }
 

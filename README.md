@@ -12,6 +12,21 @@ Note: A simplified version of the Clean Architecture and Repository Pattern that
 Note: Domain is for data access from a database, features are for business logic and API is for presentation. 
       Mediator and CQRS (Command Query Response Segregation) Patterns are also applied to this project.
 
+Note: We will try to apply the SOLID Principles as much as possible in our project.  
+      SOLID Principles:  
+      1. Single Responsibility Principle (SRP)  
+         A class should have only one reason to change, meaning it should have only one job or responsibility.  
+      2. Open/Closed Principle (OCP)  
+         Software entities (classes, modules, functions) should be open for extension but closed for modification.  
+         You should be able to add new functionality without changing existing code.  
+      3. Liskov Substitution Principle (LSP)  
+         Subtypes must be substitutable for their base types. Derived classes should extend base classes without changing their behavior.  
+      4. Interface Segregation Principle (ISP)  
+         No client should be forced to depend on methods it does not use. Prefer small, specific interfaces over large, general-purpose ones.  
+      5. Dependency Inversion Principle (DIP)  
+         High-level modules should not depend on low-level modules; both should depend on abstractions (e.g., interfaces).  
+         This is commonly implemented in ASP.NET Core using dependency injection.
+
 ## 1. Environment and Tools
 
 1. Visual Studio Community installation for Windows:  
@@ -124,7 +139,7 @@ Note: Domain is for data access from a database, features are for business logic
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
 26. Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the GroupsController, 
-    implement the Mediator injection and Get methods:  
+    implement the Mediator injection and Get actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
 
     - ActionResult inheritance:  
