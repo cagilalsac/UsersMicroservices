@@ -13,6 +13,8 @@ namespace Users.APP.Features.Roles
         // copy all the non navigation properties from Role entity
         [Required, StringLength(25)]
         public string Name { get; set; }
+
+        // since we won't update the relational user data (UserRoles) through this request, we don't need to include the UserIds property here
     }
 
     public class RoleUpdateHandler : Service<Role>, IRequestHandler<RoleUpdateRequest, CommandResponse>

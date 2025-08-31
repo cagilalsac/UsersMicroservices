@@ -290,7 +290,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 38. Create the UserRole entity class under the Domain folder (for users-roles many to many relationship):  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Domain/UserRole.cs
     
-39. Add the Users property in the Group entity class (for groups-users one to many relationship):  
+39. Add the Users property in the Group entity class (for group-users one to many relationship):  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Domain/Group.cs
 
 40. Create the Roles, Users and UserRoles DbSets in UsersDb:  
@@ -305,7 +305,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
       update-database  
     - For Rider, use the UI as described in JetBrains documentation.
 
-42. Under Features/Users, add the following handlers:  
+42. Under Features/Users, add the following handlers inheriting from the base abstract generic entity Service class:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Users/UserQueryHandler.cs
  
     - Relational entity data can be included to the query by using the Include method (Entity Framework Core Eager Loading). 
@@ -329,7 +329,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Roles/RoleDeleteHandler.cs
 
-44. Since Group entity has relational User entities (groups-users one to many relationship),  
+44. Since Group entity has relational User entities (group-users one to many relationship),  
     we should check if the group to be deleted has any relational users in the Handle method. If any, we shouldn't delete the group:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Groups/GroupDeleteHandler.cs
  

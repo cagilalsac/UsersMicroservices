@@ -42,7 +42,7 @@ namespace Users.APP.Domain
 
 
 
-        // for groups-users one to many relationship
+        // for group-users one to many relationship
         public int? GroupId { get; set; } // foreign key that references to the Groups table's Id primary key,
                                           // Value Type: null can be assigned since ? is used, default value is null if no assignment,
                                           // change int? to int if each user must have a group

@@ -27,7 +27,7 @@ namespace Users.APP.Domain
 
 
 
-        // for groups-users one to many relationship
+        // for group-users one to many relationship
         public List<User> Users { get; set; } = new List<User>(); // navigation property for retrieving related User entities data
                                                                   // of the Group entity data in queries,
                                                                   // initialized for preventing null reference exception

@@ -16,14 +16,15 @@ namespace Users.APP.Domain
                                                                               // entities data of the Role entity data in queries,
                                                                               // initialized for preventing null reference exception
 
-        [NotMapped] // no column in the Roles table will be created for this property since NotMapped attribute is defined
-        public List<int> UserIds // helps to easily manage the UserRoles relational entities by User Id values
-        {
-            // returns the User Id values of the Role entity
-            get => UserRoles.Select(userRoleEntity => userRoleEntity.UserId).ToList();
+        // Since we won't update the relational user data (UserRoles) through Role entity, we don't need the UserIds property here.
+        //[NotMapped] // no column in the Roles table will be created for this property since NotMapped attribute is defined
+        //public List<int> UserIds // helps to easily manage the UserRoles relational entities by User Id values
+        //{
+        //    // returns the User Id values of the Role entity
+        //    get => UserRoles.Select(userRoleEntity => userRoleEntity.UserId).ToList();
 
-            // sets the UserRoles relational entities of the Role entity by the assigned User Id values
-            set => UserRoles = value.Select(userId => new UserRole() { UserId = userId }).ToList(); 
-        }
+        //    // sets the UserRoles relational entities of the Role entity by the assigned User Id values
+        //    set => UserRoles = value.Select(userId => new UserRole() { UserId = userId }).ToList(); 
+        //}
     }
 }

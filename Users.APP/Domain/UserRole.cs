@@ -2,6 +2,7 @@
 
 namespace Users.APP.Domain
 {
+    // for users-roles many to many relationship
     public class UserRole : Entity
     {
         public int UserId { get; set; } // foreign key that references to the Users table's Id primary key

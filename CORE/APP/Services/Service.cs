@@ -132,6 +132,7 @@ namespace CORE.APP.Services
         /// </param>
         protected async Task Create(TEntity entity, CancellationToken cancellationToken, bool save = true)
         {
+            entity.Guid = Guid.NewGuid().ToString(); // generate a new guid for the entity that will be inserted
             _db.Set<TEntity>().Add(entity);
             if (save)
                 await Save(cancellationToken);

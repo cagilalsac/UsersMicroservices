@@ -117,12 +117,12 @@ namespace @Model.ControllerNamespace
 @{
     foreach (var property in relatedProperties.Values)
     {
-            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(relatedProperties.FirstOrDefault(rp => rp.Value == property).Key.Substring(0, 1).ToLower() + relatedProperties.FirstOrDefault(rp => rp.Value == property).Key.Substring(1))Service.GetList(), "Id", "Name");
+            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(relatedProperties.FirstOrDefault(rp => rp.Value == property).Key.Substring(0, 1).ToLower() + relatedProperties.FirstOrDefault(rp => rp.Value == property).Key.Substring(1))Service.List(), "Id", "Name");
     }
 }           
             
             /* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.EntityIds = new MultiSelectList(_EntityService.GetList(), "Id", "Name");
+            //ViewBag.EntityIds = new MultiSelectList(_EntityService.List(), "Id", "Name");
         }
 
         private void SetTempData(string message, string key = "Message")
@@ -138,30 +138,30 @@ namespace @Model.ControllerNamespace
         public IActionResult Index()
         {
             // Get collection service logic:
-            var list = @("_" + serviceAbstractName).GetList();
-            return View(list);
+            var list = @("_" + serviceAbstractName).List();
+            return View(list); // return response collection as model to the Index view
         }
 
         // GET: @routePrefix/Details/5
         public IActionResult Details(@primaryKeyShortTypeName id)
         {
             // Get item service logic:
-            var item = @("_" + serviceAbstractName).GetItem(id);
-            return View(item);
+            var item = @("_" + serviceAbstractName).Item(id);
+            return View(item); // return response item as model to the Details view
         }
 
         // GET: @routePrefix/Create
         public IActionResult Create()
         {
-            SetViewData();
-            return View();
+            SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
+            return View(); // return Create view with no model
         }
 
         // POST: @routePrefix/Create
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(@requestType @Model.ModelVariable)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // check data annotation validation errors in the request
             {
 @{
     if (!string.IsNullOrEmpty(primaryKeyType) && IsGuid(primaryKeyType))
@@ -169,55 +169,55 @@ namespace @Model.ControllerNamespace
                 @:@(Model.ModelVariable).@primaryKeyName = Guid.NewGuid();
     }
                 @:// Insert item service logic:
-                @:var result = @("_" + serviceAbstractName).Create(@Model.ModelVariable);
-                @:if (result.IsSuccessful)
+                @:var response = @("_" + serviceAbstractName).Create(@Model.ModelVariable);
+                @:if (response.IsSuccessful)
 }  
                 {
-                    SetTempData(result.Message);
-                    return RedirectToAction(nameof(Details), new { id = result.Id });
+                    SetTempData(response.Message); // set TempData dictionary to carry the message to the redirected action's view
+                    return RedirectToAction(nameof(Details), new { id = response.Id }); // redirect to Details action with id parameter as response.Id route value
                 }
-                ModelState.AddModelError("", result.Message);
+                ModelState.AddModelError("", response.Message); // to display service error message in the validation summary of the view
             }
-            SetViewData();
-            return View(@Model.ModelVariable);
+            SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
+            return View(@Model.ModelVariable); // return request as model to the Create view
         }
 
         // GET: @routePrefix/Edit/5
         public IActionResult Edit(@primaryKeyShortTypeName id)
         {
             // Get item to edit service logic:
-            var item = @("_" + serviceAbstractName).GetItemForEdit(id);
-            SetViewData();
-            return View(item);
+            var item = @("_" + serviceAbstractName).Edit(id);
+            SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
+            return View(item); // return request as model to the Edit view
         }
 
         // POST: @routePrefix/Edit
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(@requestType @Model.ModelVariable)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // check data annotation validation errors in the request
             {
 @{
                 @:// Update item service logic:
-                @:var result = @("_" + serviceAbstractName).Update(@Model.ModelVariable);
-                @:if (result.IsSuccessful)
+                @:var response = @("_" + serviceAbstractName).Update(@Model.ModelVariable);
+                @:if (response.IsSuccessful)
 }
                 {
-                    SetTempData(result.Message);
-                    return RedirectToAction(nameof(Details), new { id = result.Id });
+                    SetTempData(response.Message); // set TempData dictionary to carry the message to the redirected action's view
+                    return RedirectToAction(nameof(Details), new { id = response.Id }); // redirect to Details action with id parameter as response.Id route value
                 }
-                ModelState.AddModelError("", result.Message);
+                ModelState.AddModelError("", response.Message); // to display service error message in the validation summary of the view
             }
-            SetViewData();
-            return View(@Model.ModelVariable);
+            SetViewData(); // set ViewData dictionary to carry extra data other than the model to the view
+            return View(@Model.ModelVariable); // return request as model to the Edit view
         }
 
         // GET: @routePrefix/Delete/5
         public IActionResult Delete(@primaryKeyShortTypeName id)
         {
             // Get item to delete service logic:
-            var item = @("_" + serviceAbstractName).GetItem(id);
-            return View(item);
+            var item = @("_" + serviceAbstractName).Item(id);
+            return View(item); // return response item as model to the Delete view
         }
 
         // POST: @routePrefix/Delete
@@ -225,9 +225,9 @@ namespace @Model.ControllerNamespace
         public IActionResult DeleteConfirmed(@primaryKeyShortTypeName id)
         {
             // Delete item service logic:
-            var result = @("_" + serviceAbstractName).Delete(id);
-            SetTempData(result.Message);
-            return RedirectToAction(nameof(Index));
+            var response = @("_" + serviceAbstractName).Delete(id);
+            SetTempData(response.Message); // set TempData dictionary to carry the message to the redirected action's view
+            return RedirectToAction(nameof(Index)); // redirect to the Index action
         }
 	}
 }

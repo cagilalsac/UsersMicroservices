@@ -13,7 +13,7 @@
 
 @{
 @:@@{
-    @:var containerDivClass = "container";
+    @:var containerDivClass = "container"; // "container-fluid" can be used for full width
 @:}
     if (Model.IsPartialView)
     {
@@ -102,7 +102,8 @@ if (item.Name != "Guid" && item.Name != "IsDeleted" && item.Name != "CreateDate"
 }
 }
 @:
-@:@@* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. *@@
+@:@@* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. 
+@:    Raw HTML Helper is used in case string parameter may have HTML tags. *@@
     @:@@*
     <div class="row mb-3">
         <div class="col-2 fw-bold">
