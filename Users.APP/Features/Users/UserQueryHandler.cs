@@ -212,7 +212,7 @@ namespace Users.APP.Features.Users
 
                 RegistrationDateF = u.RegistrationDate.ToShortDateString(),
                 ScoreF = u.Score.ToString("N1"), // N: number format, C: currency format, 1: one decimal
-                IsActiveF = u.IsActive ? "Active" : "Not Active",
+                IsActiveF = u.IsActive ? "Active" : "Inactive",
 
                 // Way 1: Ternary Operator
                 //Country = (u.CountryId.HasValue ? u.CountryId.Value : 0).ToString(),

@@ -1,35 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 namespace Users.APP.Domain
 {
     /// <summary>
     /// Provides a factory for creating <see cref="UsersDb"/> instances at design time.
     /// This is used by Entity Framework Core tools (such as migrations) to construct the database context
-    /// when the application is not running, typically using configuration from appsettings.json.
+    /// when the application is not running.
     /// This class should be created if there are any exceptions during scaffolding.
     /// </summary>
     public class UsersDbFactory : IDesignTimeDbContextFactory<UsersDb>
     {
         /// <summary>
-        /// The name of the connection string in the configuration file (appsettings.json).
+        /// The connection string in the configuration file (appsettings.json).
         /// </summary>
-        const string CONNECTIONSTRINGNAME = "UsersDb";
-
-        private readonly IConfiguration _configuration;
+        const string CONNECTIONSTRING = "data source=UsersDB";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersDbFactory"/> class with the specified configuration.
-        /// </summary>
-        /// <param name="configuration">The application configuration used to retrieve the connection string.</param>
-        public UsersDbFactory(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="UsersDb"/> context using the configured connection string.
+        /// Creates a new instance of the <see cref="UsersDb"/> context using the connection string.
         /// This method is called by EF Core tooling at design time.
         /// </summary>
         /// <param name="args">Command-line arguments (not used).</param>
@@ -37,7 +25,7 @@ namespace Users.APP.Domain
         public UsersDb CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<UsersDb>();
-            optionsBuilder.UseSqlite(_configuration.GetConnectionString(CONNECTIONSTRINGNAME));
+            optionsBuilder.UseSqlite(CONNECTIONSTRING);
             return new UsersDb(optionsBuilder.Options);
         }
     }

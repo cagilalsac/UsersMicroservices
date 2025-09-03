@@ -83,7 +83,7 @@ namespace @Model.ControllerNamespace
         @:private readonly IService<@(relatedProperty + "Request, " + relatedProperty + "Response> _" + relatedProperty.Substring(0, 1).ToLower() + relatedProperty.Substring(1) + "Service");
 }
 
-        /* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. */
+        /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
         //private readonly IService<EntityRequest, EntityResponse> _EntityService;
 
         public @(Model.ControllerName + "(\n\t\t\t" + serviceAbstractType + " " + serviceAbstractName)
@@ -92,8 +92,8 @@ namespace @Model.ControllerNamespace
             @:, IService<@(relatedProperty + "Request, " + relatedProperty + "Response> " + relatedProperty.Substring(0, 1).ToLower() + relatedProperty.Substring(1) + "Service")
 }
 
-            /* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. */
-            //, EntityService EntityService
+            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
+            //, IService<EntityRequest, EntityResponse> EntityService
         )
         {
             @("_" + serviceAbstractName) = @serviceAbstractName;
@@ -102,7 +102,7 @@ namespace @Model.ControllerNamespace
             @:@("_" + relatedProperty.Substring(0, 1).ToLower() + relatedProperty.Substring(1) + "Service = " + relatedProperty.Substring(0, 1).ToLower() + relatedProperty.Substring(1) + "Service");
 }
 
-            /* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. */
+            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
             //_EntityService = EntityService;
         }
 
@@ -121,7 +121,7 @@ namespace @Model.ControllerNamespace
     }
 }           
             
-            /* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. */
+            /* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. */
             //ViewBag.EntityIds = new MultiSelectList(_EntityService.List(), "Id", "Name");
         }
 

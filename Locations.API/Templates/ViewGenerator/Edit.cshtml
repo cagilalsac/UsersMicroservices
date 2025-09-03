@@ -147,7 +147,7 @@ if (property.PropertyName != "Guid" && property.PropertyName != "IsDeleted" && p
 }
 }
 @:
-@:@@* Can be uncommented and used for many to many relationships. "Entity" may be replaced with the related entiy name in the controller and views. *@@
+@:@@* Can be uncommented and used for many to many relationships, "entity" may be replaced with the related entity name in the controller and views. *@@
         @:@@*
         @:<div class="row mb-3">
             @:<label asp-for="EntityIds" class="col-2 col-form-label fw-bold"></label>
@@ -175,16 +175,14 @@ if (property.PropertyName != "Guid" && property.PropertyName != "IsDeleted" && p
 @:}
 }
 @{
-if (Model.ReferenceScriptLibraries || dateTimePickerFound)
-{
 @:
 @:@@section Scripts {
-if (Model.ReferenceScriptLibraries)
-{
-    @:<partial name="_ValidationScriptsPartial" />
-}
+    @:@@* Can be uncommented to use client-side validation using jQuery instead of server-side validation. *@@
+    @:@@*<partial name="_ValidationScriptsPartial" />*@@
+
 if (dateTimePickerFound)
 {
+    @:
     @:@@* https://xdsoft.net/jqplugins/datetimepicker *@@
     @:<link href="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
     @:<script src="~/lib/jquery-datetimepicker/jquery.datetimepicker.full.min.js"></script>
@@ -202,7 +200,6 @@ if (dateTimePickerFound)
     @:</script>
 }
 @:}
-}
     if (!Model.IsPartialView && !Model.IsLayoutPageSelected)
     {
 @:</body>
