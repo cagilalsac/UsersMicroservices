@@ -37,10 +37,13 @@ namespace Users.APP.Features.Users
 
         public string Address { get; set; }
 
+        // [Required] // can be defined if each user must have a country
         public int? CountryId { get; set; }
 
+        //[Required] // can be defined if each user must have a city
         public int? CityId { get; set; }
-        
+
+        //[Reqired] // can be defined if each user must have a group
         public int? GroupId { get; set; }
 
         //[Required] // can be defined if each user must have at least one role
