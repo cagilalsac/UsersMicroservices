@@ -376,8 +376,8 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 51. Create the TokenResponse class in CORE Project's APP/Models/Authentication folder.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Authentication/TokenResponse.cs
 
-52. Create the base authentication service class named AuthService in CORE Project's APP/Services/Authentication folder.  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/AuthService.cs
+52. Create the base authentication service class named AuthServiceBase in CORE Project's APP/Services/Authentication folder.  
+    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/AuthServiceBase.cs
 
 53. Create the token authentication service interface named ITokenAuthService in CORE Project's APP/Services/Authentication folder.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/ITokenAuthService.cs
