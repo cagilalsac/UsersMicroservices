@@ -469,15 +469,16 @@ Note: The entities and DbContext class should be implemented first. Second, requ
       [AllowAnonymous]: Can be used to override [Authorize] at the action level and allows public access, therefore gives permission to everyone 
       for executing specific actions.
 
-63. Add the [Authorize] attribute on top of the GroupsController class then add [AllowAnonymous] attribute on top of the Get action 
-    so that all of the actions except the Get action can be executed by only authenticated users, Get action can be executed by everyone. 
-    Then add [Authorize(Roles = "Admin")] attribute on top of the Post, Put and Delete actions so that only authenticated users with role Admin 
-    can execute these actions:  
+63. Add the [Authorize] attribute on top of the GroupsController class. For example, if the Get action is wanted to be executed by 
+    authorized and unauthorized users (eveyone), [AllowAnonymous] attribute can be defined. The Get by ID action can be executed by only 
+    authenticated users since Authorize is defined at controller level. Add [Authorize(Roles = "Admin")] attribute on top of the 
+    Post, Put and Delete actions so that only authenticated users with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
 
-64. Add the [Authorize(Roles = "Admin,User")] attribute on top of the Get and GetFiltered actions of the UsersController class so that 
-    authenticated users with role Admin or User can execute these actions. Then add [Authorize(Roles = "Admin")] attribute on top of 
-    the Get by ID, Post, Put and Delete actions so that authenticated users with role Admin can execute these actions:  
+64. Add the [Authorize(Roles = "Admin,User")] attribute, or [Authorize] attribute since we have only 2 roles, on top of the Get and 
+    GetFiltered actions of the UsersController class so that authenticated users with all roles can execute these actions. 
+    Then add [Authorize(Roles = "Admin")] attribute on top of the Get by ID, Post, Put and Delete actions so that authenticated users 
+    with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
 
 65. To increase the security of APIs for the Production Environment, Cross-Origin Resource Sharing configuration can be added 

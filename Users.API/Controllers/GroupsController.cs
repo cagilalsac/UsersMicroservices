@@ -47,8 +47,8 @@ namespace Users.API.Controllers
         /// The result is returned as a JSON array in the HTTP response body.
         /// </remarks>
         [HttpGet] // HttpGet: attribute also called action method, get route: /Groups
-        [AllowAnonymous] // Both authenticated and unauthenticated users (everyone) can execute this action.
-                         // Overrides the Authorize defined for the controller.
+        //[AllowAnonymous] // Can be used to allow authenticated and unauthenticated users (everyone) to execute this action.
+                           // Overrides the Authorize defined for the controller.
         public async Task<IActionResult> Get()
         {
             // Send a GroupQueryRequest to MediatR, which dispatches it to the appropriate handler (GroupQueryHandler).

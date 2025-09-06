@@ -25,7 +25,10 @@ namespace Users.API.Controllers
 
         // GET: api/Users
         [HttpGet]
-        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        // Way 1:
+        //[Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        // Way 2: since we have only 2 roles Admin and User, we can use Authorize to check auhenticated users without defining roles.
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             try
@@ -179,7 +182,10 @@ namespace Users.API.Controllers
         /// <param name="request">A user query request to filter Users data.</param>
         /// <returns>A success response with filtered user query response data if any, otherwise no content response.</returns>
         [HttpPost("[action]")]
-        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        // Way 1:
+        //[Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        // Way 2: since we have only 2 roles Admin and User, we can use Authorize to check auhenticated users without defining roles.
+        [Authorize]
         public async Task<IActionResult> GetFiltered(UserQueryRequest request)
         {
             var response = await _mediator.Send(request);
@@ -204,7 +210,7 @@ namespace Users.API.Controllers
         /// An <see cref="IActionResult"/> containing the list of user locations if successful.
         /// </returns>
         [HttpGet("[action]")]
-        [Authorize(Roles = "Admin,User")] // Only authenticated users with role Admin or User can execute this action.
+        [Authorize] // Only authenticated users can execute this action.
         public async Task<IActionResult> GetUserLocations()
         {
             var list = await _mediator.Send(new UserLocationQueryRequest
