@@ -63,7 +63,8 @@ namespace Users.APP.Features.Tokens
         public async Task<TokenResponse> Handle(TokenRequest request, CancellationToken cancellationToken)
         {
             // Attempt to retrieve the active user by user name and password
-            var user = await Query().SingleOrDefaultAsync(u => u.UserName == request.UserName && u.Password == request.Password 
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var user = await Query(false).SingleOrDefaultAsync(u => u.UserName == request.UserName && u.Password == request.Password 
                 && u.IsActive, cancellationToken);
 
             // If user not found, return null

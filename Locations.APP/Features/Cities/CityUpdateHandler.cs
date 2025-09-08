@@ -23,10 +23,11 @@ namespace Locations.APP.Features.Cities
 
         public async Task<CommandResponse> Handle(CityUpdateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(city => city.Id != request.Id && city.CityName.ToUpper() == request.CityName.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(city => city.Id != request.Id && city.CityName == request.CityName.Trim(), cancellationToken))
                 return Error("City with the same name exists!");
 
-            var entity = await Query().SingleOrDefaultAsync(city => city.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var entity = await Query(false).SingleOrDefaultAsync(city => city.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("City not found!");
 

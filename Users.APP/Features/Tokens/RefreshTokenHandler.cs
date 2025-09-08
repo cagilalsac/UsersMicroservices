@@ -67,7 +67,8 @@ namespace Users.APP.Features.Tokens
             var userId = Convert.ToInt32(claims.SingleOrDefault(claim => claim.Type == "Id").Value);
 
             // Find user in the Users Table that matches the ID and has a non expired refresh token
-            var user = await Query().SingleOrDefaultAsync(user => user.Id == userId && user.RefreshToken == request.RefreshToken 
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var user = await Query(false).SingleOrDefaultAsync(user => user.Id == userId && user.RefreshToken == request.RefreshToken 
                 && user.RefreshTokenExpiration >= DateTime.Now, cancellationToken);
 
             // If user is not found, return null

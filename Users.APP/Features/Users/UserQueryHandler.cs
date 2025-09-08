@@ -112,14 +112,14 @@ namespace Users.APP.Features.Users
 
             // if FirstName has a value other than null or empty string without whitespace characters
             if (!string.IsNullOrWhiteSpace(request.FirstName))
-                // apply first name filtering to the query for case insensitive partial match,
+                // apply first name filtering to the query for case-sensitive partial match,
                 // for partial match StartsWith or EndsWith methods can also be used instead of Contains method
-                entityQuery = entityQuery.Where(u => u.FirstName.ToUpper().Contains(request.FirstName.ToUpper().Trim()));
+                entityQuery = entityQuery.Where(u => u.FirstName.Contains(request.FirstName.Trim()));
 
             // if LastName has a value other than null or empty string without whitespace characters
             if (!string.IsNullOrWhiteSpace(request.LastName))
-                // apply last name filtering to the query for case insensitive partial match
-                entityQuery = entityQuery.Where(u => u.LastName.ToUpper().Contains(request.LastName.ToUpper().Trim()));
+                // apply last name filtering to the query for case-sensitive partial match
+                entityQuery = entityQuery.Where(u => u.LastName.Contains(request.LastName.Trim()));
 
             // if Gender has a value therefore is not null
             if (request.Gender.HasValue) // if (request.Gender is not null) or if (request.Gender != null) can also be written

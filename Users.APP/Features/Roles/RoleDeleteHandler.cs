@@ -20,13 +20,14 @@ namespace Users.APP.Features.Roles
         // Therefore, we include the UserRoles to the query to get the relational UserRoles data to be deleted.
         protected override IQueryable<Role> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(r => r.UserRoles);
+            return base.Query().Include(r => r.UserRoles);
         }
 
         public async Task<CommandResponse> Handle(RoleDeleteRequest request, CancellationToken cancellationToken)
         {
             // r: Role entity delegate. Get the Role entity by ID from the Roles table
-            var entity = await Query().SingleOrDefaultAsync(r => r.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to delete the entity
+            var entity = await Query(false).SingleOrDefaultAsync(r => r.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("Role not found!");
 

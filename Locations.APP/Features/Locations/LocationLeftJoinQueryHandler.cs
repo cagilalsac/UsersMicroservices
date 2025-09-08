@@ -166,11 +166,11 @@ namespace Locations.APP.Features.Locations
             if (request.CountryName.HasAny())
             {
                 // Filter results to include only those where the country name contains the provided value
-                // (case-insensitive, no white space characters in the beginning and at the end).
+                // (case-sensitive, no white space characters in the beginning and at the end).
                 // Because of left join, this query response property value may be null, so we need to use null-coalescing operator (??)
                 // for this string query response property reached by the location delegate if we use any string class property or method with it
                 // to prevent null reference exception.
-                leftJoinQuery = leftJoinQuery.Where(location => (location.CountryName ?? "").ToUpper().Contains(request.CountryName.ToUpper().Trim()));
+                leftJoinQuery = leftJoinQuery.Where(location => (location.CountryName ?? "").Contains(request.CountryName.Trim()));
             }
 
             // Apply filtering by city name if provided in the request.
@@ -180,11 +180,11 @@ namespace Locations.APP.Features.Locations
             if (request.CityName.HasAny())
             {
                 // Filter results to include only those where the city name contains the provided value
-                // (case-insensitive, no white space characters in the beginning and at the end).
+                // (case-sensitive, no white space characters in the beginning and at the end).
                 // Because of left join, this query response property value may be null, so we need to use null-coalescing operator (??)
                 // for this string query response property reached by the location delegate if we use any string class property or method with it
                 // to prevent null reference exception.
-                leftJoinQuery = leftJoinQuery.Where(location => (location.CityName ?? "").ToUpper().Contains(request.CityName.ToUpper().Trim()));
+                leftJoinQuery = leftJoinQuery.Where(location => (location.CityName ?? "").Contains(request.CityName.Trim()));
             }
 
             // Apply paging if both PageNumber and CountPerPage are specified and greater than zero.

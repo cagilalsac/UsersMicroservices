@@ -26,7 +26,7 @@ namespace Users.APP.Features.Roles
         public async Task<CommandResponse> Handle(RoleCreateRequest request, CancellationToken cancellationToken)
         {
             // r: Role entity delegate. Check if a role with the same name exists.
-            if (await Query().AnyAsync(r => r.Name.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(r => r.Name == request.Name.Trim(), cancellationToken))
                 return Error("Role with the same name exists!");
 
             var entity = new Role()

@@ -21,10 +21,11 @@ namespace Locations.APP.Features.Countries
 
         public async Task<CommandResponse> Handle(CountryUpdateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(country => country.Id != request.Id && country.CountryName.ToUpper() == request.CountryName.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(country => country.Id != request.Id && country.CountryName == request.CountryName.Trim(), cancellationToken))
                 return Error("Country with the same name exists!");
 
-            var entity = await Query().SingleOrDefaultAsync(country => country.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var entity = await Query(false).SingleOrDefaultAsync(country => country.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("Country not found!");
 

@@ -18,7 +18,8 @@ namespace Locations.APP.Features.Cities
 
         public async Task<CommandResponse> Handle(CityDeleteRequest request, CancellationToken cancellationToken)
         {
-            var entity = await Query().SingleOrDefaultAsync(city => city.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to delete the entity
+            var entity = await Query(false).SingleOrDefaultAsync(city => city.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("City not found!");
 

@@ -43,7 +43,7 @@ namespace Users.APP.Features.Groups
 
         /// <summary>
         /// Handles the update logic for an existing group.
-        /// Checks for duplicate group titles (case-insensitive, trimmed), ensures the group with same title
+        /// Checks for duplicate group titles (case-sensitive, trimmed), ensures the group with same title
         /// excluding the current updated one doesn't exist, and updates its title.
         /// Returns a <see cref="CommandResponse"/> indicating success or error with a result message and optionally entity ID.
         /// </summary>
@@ -52,11 +52,10 @@ namespace Users.APP.Features.Groups
         /// <returns>A <see cref="CommandResponse"/> with the result of the operation.</returns>
         public async Task<CommandResponse> Handle(GroupUpdateRequest request, CancellationToken cancellationToken)
         {
-            // If any other group (excluding the current one) already has the same title (case-insensitive, trimmed), don't update.
+            // If any other group (excluding the current one) already has the same title (case-sensitive, trimmed), don't update.
             // This prevents duplicate group names in the database.
-            // ToLower string method can also be used instead of ToUpper.
             if (await _db.Groups.AnyAsync(groupEntity => groupEntity.Id != request.Id
-                && groupEntity.Title.ToUpper() == request.Title.ToUpper().Trim(), cancellationToken))
+                && groupEntity.Title == request.Title.Trim(), cancellationToken))
                 return Error("Group with the same title exists!");
 
             // Attempt to find the group entity by its ID, if not found return error command response with message.

@@ -23,7 +23,7 @@ namespace Locations.APP.Features.Cities
 
         public async Task<CommandResponse> Handle(CityCreateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(city => city.CityName.ToUpper() == request.CityName.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(city => city.CityName == request.CityName.Trim(), cancellationToken))
                 return Error("City with the same name exists!");
 
             var entity = new City

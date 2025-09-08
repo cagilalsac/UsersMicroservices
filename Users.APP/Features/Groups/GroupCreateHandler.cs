@@ -65,7 +65,7 @@ namespace Users.APP.Features.Groups
 
         /// <summary>
         /// Handles the creation logic for a new group.
-        /// Checks for duplicate group titles (case-insensitive, trimmed), and if none exist, creates and saves a new group.
+        /// Checks for duplicate group titles (case-sensitive, trimmed), and if none exist, creates and saves a new group.
         /// Returns a <see cref="CommandResponse"/> indicating success or error.
         /// </summary>
         /// <param name="request">The group creation request containing the title.</param>
@@ -73,14 +73,14 @@ namespace Users.APP.Features.Groups
         /// <returns>A <see cref="CommandResponse"/> with the result of the operation.</returns>
         public async Task<CommandResponse> Handle(GroupCreateRequest request, CancellationToken cancellationToken)
         {
-            // Check if any group already exists with the same title (case-insensitive, trimmed) preventing duplicate group names in the database.
+            // Check if any group already exists with the same title (case-sensitive, trimmed) preventing duplicate group names in the database.
             // Way 1:
             //var existingEntity = _db.Groups.SingleOrDefaultAsync(groupEntity => 
-            //    groupEntity.Title.ToUpper() == request.Title.ToUpper().Trim(), cancellationToken);
+            //    groupEntity.Title == request.Title.Trim(), cancellationToken);
             //if (existingEntity is not null) // if (existingEntity != null) can also be written
             //    return Error("Group with the same title exists!");
             // Way 2: 
-            if (await _db.Groups.AnyAsync(groupEntity => groupEntity.Title.ToUpper() == request.Title.ToUpper().Trim(), cancellationToken))
+            if (await _db.Groups.AnyAsync(groupEntity => groupEntity.Title == request.Title.Trim(), cancellationToken))
                 return Error("Group with the same title exists!");
 
             // Creates a new Group entity with the provided title (trimmed for consistency).

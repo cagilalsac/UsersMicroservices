@@ -29,11 +29,12 @@ namespace Users.APP.Features.Roles
         public async Task<CommandResponse> Handle(RoleUpdateRequest request, CancellationToken cancellationToken)
         {
             // r: Role entity delegate. Check if a role excluding the current updated role with the same name exists.
-            if (await Query().AnyAsync(r => r.Id != request.Id && r.Name.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(r => r.Id != request.Id && r.Name == request.Name.Trim(), cancellationToken))
                 return Error("Role with the same name exists!");
 
             // get the Role entity by ID from the Roles table
-            var entity = await Query().SingleOrDefaultAsync(r => r.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var entity = await Query(false).SingleOrDefaultAsync(r => r.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("Role not found!");
 

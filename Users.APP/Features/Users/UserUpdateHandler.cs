@@ -71,7 +71,8 @@ namespace Users.APP.Features.Users
                 return Error("Active user with the same user name exists!");
 
             // get the User entity by ID from the Users table
-            var entity = await Query().SingleOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to update the entity
+            var entity = await Query(false).SingleOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("User not found!");
 

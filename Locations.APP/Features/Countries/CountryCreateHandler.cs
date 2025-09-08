@@ -21,7 +21,7 @@ namespace Locations.APP.Features.Countries
 
         public async Task<CommandResponse> Handle(CountryCreateRequest request, CancellationToken cancellationToken)
         {
-            if (await Query().AnyAsync(country => country.CountryName.ToUpper() == request.CountryName.ToUpper().Trim(), cancellationToken))
+            if (await Query().AnyAsync(country => country.CountryName == request.CountryName.Trim(), cancellationToken))
                 return Error("Country with the same name exists!");
 
             var entity = new Country

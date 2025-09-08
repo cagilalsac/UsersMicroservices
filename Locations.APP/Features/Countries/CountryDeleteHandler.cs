@@ -23,7 +23,8 @@ namespace Locations.APP.Features.Countries
 
         public async Task<CommandResponse> Handle(CountryDeleteRequest request, CancellationToken cancellationToken)
         {
-            var entity = await Query().SingleOrDefaultAsync(country => country.Id == request.Id, cancellationToken);
+            // isNoTracking is false for being tracked by EF Core to delete the entity
+            var entity = await Query(false).SingleOrDefaultAsync(country => country.Id == request.Id, cancellationToken);
             if (entity is null)
                 return Error("Country not found!");
 
