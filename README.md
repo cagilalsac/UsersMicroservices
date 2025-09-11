@@ -519,7 +519,7 @@ Note: You need to set AppHost Project as the startup project so that you can sen
 Note: Extra initial data seeding for locations can be found at:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Controllers/DatabaseController.cs
 
-Note: Extra inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
+Note: Extra extensions, inner join and left outer join queries with filtering, paging and ordering example implementations can be found at:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Paging/IPageRequest.cs  
 
 https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Ordering/IOrderRequest.cs  

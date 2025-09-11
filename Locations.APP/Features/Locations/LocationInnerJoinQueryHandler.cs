@@ -1,5 +1,4 @@
 ﻿using CORE.APP.Extensions;
-using CORE.APP.Models;
 using CORE.APP.Models.Ordering;
 using CORE.APP.Models.Paging;
 using CORE.APP.Services;
@@ -13,7 +12,8 @@ namespace Locations.APP.Features.Locations
     /// <summary>
     /// Represents a request for an inner join query between countries and cities, including filtering, ordering, and paging options.
     /// </summary>
-    public class LocationInnerJoinQueryRequest : Request, IRequest<IQueryable<LocationInnerJoinQueryResponse>>, IPageRequest, IOrderRequest
+    public class LocationInnerJoinQueryRequest : IRequest<IQueryable<LocationInnerJoinQueryResponse>>, 
+        IPageRequest, IOrderRequest // Interface Segregation Principle (I of SOLID) is applied
     {
         /// <summary>
         /// Gets or sets the country name filter for the query.
@@ -26,9 +26,9 @@ namespace Locations.APP.Features.Locations
         public string CityName { get; set; }
 
         /// <summary>
-        /// Gets or sets the current page number for paging (1-based).
+        /// Gets or sets the current page number for paging (1-based, default 1).
         /// </summary>
-        public int PageNumber { get; set; }
+        public int PageNumber { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the number of records to return per page for paging.
@@ -40,40 +40,24 @@ namespace Locations.APP.Features.Locations
         /// This property is ignored during JSON serialization.
         /// </summary>
         [JsonIgnore]
-        public int TotalCount { get; set; }
+        public int TotalCountForPaging { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the entity property for ordering by (e.g., "CountryName" or "CityName").
+        /// Gets or sets the name of the entity property for ordering by, default CountryName (e.g., "CountryName" or "CityName").
         /// </summary>
-        public string EntityPropertyName { get; set; }
+        public string OrderEntityPropertyName { get; set; } = "CountryName";
 
         /// <summary>
-        /// Gets or sets a value indicating whether the direction is ascending for ordering.
+        /// Gets or sets a value indicating whether the direction is ascending or descending for ordering.
         /// </summary>
-        public bool IsDescending { get; set; }
+        public bool IsOrderDescending { get; set; }
     }
 
     /// <summary>
     /// Represents the response object for the inner join query between countries and cities.
     /// </summary>
-    public class LocationInnerJoinQueryResponse : Response
+    public class LocationInnerJoinQueryResponse
     {
-        /// <summary>
-        /// Gets or sets the integer ID of the response.
-        /// We don't need Id as Country ID because we will define a property as CountryId for it. 
-        /// This property is ignored during JSON serialization.
-        /// </summary>
-        [JsonIgnore]
-        public override int Id { get => base.Id; set => base.Id = value; }
-
-        /// <summary>
-        /// Gets or sets the GUID of the response.
-        /// We don't need to return country GUID in the response. 
-        /// This property is ignored during JSON serialization.
-        /// </summary>
-        [JsonIgnore]
-        public override string Guid { get => base.Guid; set => base.Guid = value; }
-
         /// <summary>
         /// Gets or sets the ID of the country.
         /// </summary>
@@ -124,10 +108,9 @@ namespace Locations.APP.Features.Locations
             var cityQuery = Query<City>();
 
             // Perform an inner join between countries and cities on the CountryId field.
-            // Project the ordered ascending by country name then ordered ascending by city name query result into a LocationInnerJoinQueryResponse DTO (Model).
+            // Project the query result into a LocationInnerJoinQueryResponse DTO (Model).
             var innerJoinQuery = from country in countryQuery
                                  join city in cityQuery on country.Id equals city.CountryId
-                                 orderby country.CountryName, city.CityName
                                  select new LocationInnerJoinQueryResponse
                                  {
                                      CountryId = country.Id,
@@ -137,18 +120,18 @@ namespace Locations.APP.Features.Locations
                                  };
 
             // Apply ordering based on the requested entity property and direction.
-            if (request.EntityPropertyName == nameof(Country.CountryName))
+            if (request.OrderEntityPropertyName == nameof(Country.CountryName))
             {
                 // Order by country name, descending or ascending.
-                if (request.IsDescending)
+                if (request.IsOrderDescending)
                     innerJoinQuery = innerJoinQuery.OrderByDescending(location => location.CountryName);
                 else
                     innerJoinQuery = innerJoinQuery.OrderBy(location => location.CountryName);
             }
-            else if (request.EntityPropertyName == nameof(City.CityName))
+            else if (request.OrderEntityPropertyName == nameof(City.CityName))
             {
                 // Order by city name, descending or ascending.
-                if (request.IsDescending)
+                if (request.IsOrderDescending)
                     innerJoinQuery = innerJoinQuery.OrderByDescending(location => location.CityName);
                 else
                     innerJoinQuery = innerJoinQuery.OrderBy(location => location.CityName);
@@ -157,7 +140,7 @@ namespace Locations.APP.Features.Locations
             // Apply filtering by country name if provided in the request.
             // Way 1:
             //if (!string.IsNullOrWhiteSpace(request.CountryName))
-            // Way 2: use the string extension method defined in APP\Extensions\StringExtensions.cs
+            // Way 2: use the string extension method defined in CORE\APP\Extensions\StringExtensions.cs
             if (request.CountryName.HasAny())
             {
                 // Filter results to include only those where the country name contains the provided value 
@@ -168,7 +151,7 @@ namespace Locations.APP.Features.Locations
             // Apply filtering by city name if provided in the request.
             // Way 1:
             //if (!string.IsNullOrWhiteSpace(request.CityName))
-            // Way 2: use the string extension method defined in APP\Extensions\StringExtensions.cs
+            // Way 2: use the string extension method defined in CORE\APP\Extensions\StringExtensions.cs
             if (request.CityName.HasAny())
             {
                 // Filter results to include only those where the city name contains the provided value 
@@ -176,12 +159,12 @@ namespace Locations.APP.Features.Locations
                 innerJoinQuery = innerJoinQuery.Where(location => location.CityName.Contains(request.CityName.Trim()));
             }
 
+            // Set the total count of filtered records for client-side paging information.
+            request.TotalCountForPaging = innerJoinQuery.Count();
+
             // Apply paging if both PageNumber and CountPerPage are specified and greater than zero.
             if (request.PageNumber > 0 && request.CountPerPage > 0)
             {
-                // Set the total count of filtered records for client-side paging information.
-                request.TotalCount = innerJoinQuery.Count();
-
                 // Calculate the number of records to skip and take for the current page.
                 var skipValue = (request.PageNumber - 1) * request.CountPerPage;
                 var takeValue = request.CountPerPage;

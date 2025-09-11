@@ -45,9 +45,9 @@ namespace Locations.API.Controllers
         [HttpGet, Route("~/api/SeedDb")]
         public IActionResult Seed()
         {
-            // Ensure that the seed operation is only allowed in the development environment.
-            if (!_environment.IsDevelopment())
-                return BadRequest("The seed operation can only be performed in development environment!");
+            // Can be uncommented to ensure that the seed operation is only allowed in the development environment.
+            //if (!_environment.IsDevelopment())
+            //    return BadRequest("The seed operation can only be performed in development environment!");
 
             // Remove all existing city and country records from the database.
             _db.Cities.RemoveRange(_db.Cities.ToList());
@@ -207,11 +207,18 @@ namespace Locations.API.Controllers
                 }
             });
 
+            // Add a new Country entity for China with no cities.
+            _db.Countries.Add(new Country
+            {
+                Guid = Guid.NewGuid().ToString(),
+                CountryName = "China",
+            });
+
             // Persist all changes to the database.
             _db.SaveChanges();
 
             // Return a success message indicating the database was seeded.
-            return Ok("Database seed in the development environment successful.");
+            return Ok("Database seed successful.");
         }
     }
 }

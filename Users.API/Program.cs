@@ -59,7 +59,7 @@ foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 // Avoid storing per-user or per-request data in singleton services to prevent concurrency issues.
 builder.Services.AddSingleton<ITokenAuthService, TokenAuthService>();
 
-/*
+/* 
  * Service Lifetimes in ASP.NET Core Dependency Injection:
  *
  * 1. AddScoped:
@@ -90,7 +90,21 @@ builder.Services.AddSingleton<ITokenAuthService, TokenAuthService>();
  * | AddScoped     | Per HTTP request        | One instance per request     | DbContext, per-request services   |
  * | AddSingleton  | Application-wide        | One instance for app lifetime| Caching, config, logging          |
  * | AddTransient  | Every time requested    | New instance each time       | Lightweight stateless helpers     |
- */
+ 
+ SOLID Principles:
+ 1.	Single Responsibility Principle (SRP)
+    A class should have only one reason to change, meaning it should have only one job or responsibility.
+ 2.	Open/Closed Principle (OCP)
+    Software entities (classes, modules, functions) should be open for extension but closed for modification. 
+    You should be able to add new functionality without changing existing code.
+ 3. Liskov Substitution Principle (LSP)
+    Subtypes must be substitutable for their base types. Derived classes should extend base classes without changing their behavior.
+ 4.	Interface Segregation Principle (ISP)
+    No client should be forced to depend on methods it does not use. Prefer small, specific interfaces over large, general-purpose ones.
+ 5. Dependency Inversion Principle (DIP)
+    High-level modules should not depend on low-level modules; both should depend on abstractions (e.g., interfaces). 
+    This is commonly implemented in ASP.NET Core using dependency injection, as seen in Program.cs.
+*/
 
 
 

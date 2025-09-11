@@ -37,9 +37,9 @@ namespace Users.API.Controllers
         [HttpGet, Route("~/api/SeedDb")]
         public IActionResult Seed()
         {
-            // If the running application's environment is not development, prevent seeding initial data to the database.
-            if (!_environment.IsDevelopment())
-                return BadRequest("The seed operation can only be performed in development environment!");
+            // Can be uncommented to check if the running application's environment is not development, prevent seeding initial data to the database.
+            //if (!_environment.IsDevelopment())
+            //    return BadRequest("The seed operation can only be performed in development environment!");
 
             // Remove all existing user-role relationships
             var userRoles = _db.UserRoles.ToList();
@@ -127,7 +127,7 @@ namespace Users.API.Controllers
 
             _db.SaveChanges();
 
-            return Ok("Database seed in the development environment successful.");
+            return Ok("Database seed successful.");
         }
     }
 }
