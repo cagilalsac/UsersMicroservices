@@ -11,7 +11,7 @@ using Users.APP.Domain;
 namespace Users.APP.Migrations
 {
     [DbContext(typeof(UsersDb))]
-    [Migration("20250820222222_vFinal")]
+    [Migration("20250912095530_vFinal")]
     partial class vFinal
     {
         /// <inheritdoc />
@@ -153,7 +153,8 @@ namespace Users.APP.Migrations
                 {
                     b.HasOne("Users.APP.Domain.Group", "Group")
                         .WithMany("Users")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Group");
                 });
@@ -163,13 +164,13 @@ namespace Users.APP.Migrations
                     b.HasOne("Users.APP.Domain.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Users.APP.Domain.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Role");

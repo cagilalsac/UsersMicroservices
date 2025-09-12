@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locations.APP.Migrations
 {
     [DbContext(typeof(LocationsDb))]
-    [Migration("20250822212409_vFinal")]
+    [Migration("20250912095501_vFinal")]
     partial class vFinal
     {
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace Locations.APP.Migrations
                     b.HasOne("Locations.APP.Domain.Country", "Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");

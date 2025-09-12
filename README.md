@@ -12,6 +12,9 @@ Note: A simplified version of the Clean Architecture and Repository Pattern that
 Note: Domain is for data access from a database, features are for business logic and API is for presentation. 
       Mediator and CQRS (Command Query Response Segregation) Patterns are also applied to this project.
 
+Note: The source code of the project with search options can also be found at:  
+      https://need4code.com/DotNet/Home/Index?path=.NET%5C06_Microservices_Users
+
 Note: We will try to apply the SOLID Principles as much as possible in our project.  
       SOLID Principles:  
       1. Single Responsibility Principle (SRP)  
@@ -296,6 +299,14 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 40. Create the Roles, Users and UserRoles DbSets in UsersDb:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Domain/UsersDb.cs
 
+    Note (Optional):  
+    Database configurations such as using no action (will not allow to delete the records from the relational table (User) 
+    when a record is deleted from the main table (Group)) instead of cascade (which will automatically delete the records 
+    from the relational table (User) when a record is deleted from the main table (Group)) between tables may be done by 
+    overriding the OnModelCreating method of the UsersDb database context class. Default is cascade in Entity Framework Core. 
+    Changing column configurations instead of using data annotations in entities (e.g. making a column required or setting 
+    maximum length), changing table names etc. can also be done in the OnModelCreating method among other configurations.
+
 41. Update your UsersDB database for Roles, Users and UserRoles tables using migrations:  
     - Open Package Manager Console from Visual Studio menu -> Tools -> NuGet Package Manager -> Package Manager Console  
     - Right-click Users.API Project and click Set as Startup Project  
@@ -490,10 +501,18 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 ## II) Locations Microservices: Source code shared in Locations.APP and Locations.API Projects, these projects are homeworks.
 
 Note: Homework includes:  
-APP Domain: Country and City entities with LocationsDbContext  
+APP Domain: Country and City entities with LocationsDb database context class  
 APP Features: Country and City query, create, update and delete handlers, requests and query responses  
 API Controllers: Country and city controllers with get (authorized anonymous), post (authorized for admin role), put (authorized for admin role) 
 and delete (authorized for admin role) actions, including GetByCountryId (authorized anonymous) action in cities controller.  
+
+Note (Optional):  
+Database configurations such as using no action (will not allow to delete the records from the relational table (City) 
+when a record is deleted from the main table (Country)) instead of cascade (which will automatically delete the records 
+from the relational table (City) when a record is deleted from the main table (Country)) between tables may be done by 
+overriding the OnModelCreating method of the LocationsDb database context class. Default is cascade in Entity Framework Core. 
+Changing column configurations instead of using data annotations in entities (e.g. making a column required or setting 
+maximum length), changing table names etc. can also be done in the OnModelCreating method among other configurations.
 
 Note: The JWT Authentication will be provided through Users.API, therefore JWT Authentication and validation configuration must be added 
 in the IoC Container of the Program.cs in the Locations.API Project with the same security key and validation configuration as in Users.API Project's Program.cs.  

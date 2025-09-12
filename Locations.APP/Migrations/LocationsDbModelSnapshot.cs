@@ -64,7 +64,7 @@ namespace Locations.APP.Migrations
                     b.HasOne("Locations.APP.Domain.Country", "Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
