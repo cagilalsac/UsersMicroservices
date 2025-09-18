@@ -47,7 +47,7 @@ Note: We will try to apply the SOLID Principles as much as possible in our proje
 
 5. Name the solution as your project name. You may change the solution folder in Location. "Create in new folder" option must be checked.
 
-6 (Week 1). Select .NET 8.0 as the Framework, check Configure for HTTPS and select .NET Aspire version as 8.2.  
+6. (Week 1) Select .NET 8.0 as the Framework, check Configure for HTTPS and select .NET Aspire version as 8.2.  
    
 Note: If you get an exception about "ASPIRE_ALLOW_UNSECURED_TRANSPORT" environment variable when you run the Aspire project, open 
 launchSettings.json under the Properties folder of the AppHost project and add "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true" in both 
