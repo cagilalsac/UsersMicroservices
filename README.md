@@ -49,6 +49,11 @@ Note: We will try to apply the SOLID Principles as much as possible in our proje
 
 6 (Week 1). Select .NET 8.0 as the Framework, check Configure for HTTPS and select .NET Aspire version as 8.2.
    
+  Note: If you get an exception about "ASPIRE_ALLOW_UNSECURED_TRANSPORT" environment variable when you run the Aspire project, open 
+        launchSettings.json under the Properties folder of the AppHost project and add "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true" in both 
+        https and http profiles as in:  
+        https://github.com/cagilalsac/UsersMicroservices/tree/master/06_Microservices_Users.AppHost/Properties/launchSettings.json
+
 ## 3. CORE Project
 
 7. Right-click the solution in Solution Explorer, then Add -> New Project to create a project named CORE as a Class Library with .NET 8.0.
