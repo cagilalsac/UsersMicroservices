@@ -47,7 +47,7 @@ Note: We will try to apply the SOLID Principles as much as possible in our proje
 
 5. Name the solution as your project name. You may change the solution folder in Location. "Create in new folder" option must be checked.
 
-6. Select .NET 8.0 as the Framework, check Configure for HTTPS and select .NET Aspire version as 8.2.
+6 (Week 1). Select .NET 8.0 as the Framework, check Configure for HTTPS and select .NET Aspire version as 8.2.
    
 ## 3. CORE Project
 
