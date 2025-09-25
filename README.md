@@ -106,7 +106,7 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/06_Microservices_Us
 21. Open Program.cs and add builder.Services.AddDbContext...  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
-22. Create your UsersDB database using migrations:  
+22. (Week 2) Create your UsersDB database using migrations:  
     - Open Package Manager Console from Visual Studio menu -> Tools -> NuGet Package Manager -> Package Manager Console  
     - Set Users.APP as Default Project in Package Manager Console  
     - Run:  
