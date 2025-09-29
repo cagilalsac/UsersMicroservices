@@ -54,6 +54,12 @@ launchSettings.json under the Properties folder of the AppHost project and add "
 https and http profiles as in:  
 https://github.com/cagilalsac/UsersMicroservices/tree/master/06_Microservices_Users.AppHost/Properties/launchSettings.json
 
+Note: When you run your application in Rider on Mac and if you get the exception below:  
+Failed to read NuGet.Config due to unauthorized access. Path: '/Users/YourUserFolder/.nuget/NuGet/NuGet.Config'  
+you should run the following commands in the terminal of Rider:  
+sudo chown $USER ~/.nuget/NuGet/NuGet.Config  
+chmod 644 ~/.nuget/NuGet/NuGet.Config
+
 ## 3. CORE Project
 
 7. Right-click the solution in Solution Explorer, then Add -> New Project to create a project named CORE as a Class Library with .NET 8.0.

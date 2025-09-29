@@ -11,7 +11,7 @@ using Users.APP.Domain;
 namespace Users.APP.Migrations
 {
     [DbContext(typeof(UsersDb))]
-    [Migration("20250912095530_vFinal")]
+    [Migration("20250929154306_vFinal")]
     partial class vFinal
     {
         /// <inheritdoc />
@@ -36,6 +36,9 @@ namespace Users.APP.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Title")
+                        .IsUnique();
+
                     b.ToTable("Groups");
                 });
 
@@ -54,6 +57,9 @@ namespace Users.APP.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Roles");
                 });
@@ -120,7 +126,16 @@ namespace Users.APP.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
+
                     b.HasIndex("GroupId");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.HasIndex("FirstName", "LastName");
 
                     b.ToTable("Users");
                 });

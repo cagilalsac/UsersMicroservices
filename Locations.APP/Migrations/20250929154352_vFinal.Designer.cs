@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locations.APP.Migrations
 {
     [DbContext(typeof(LocationsDb))]
-    [Migration("20250912095501_vFinal")]
+    [Migration("20250929154352_vFinal")]
     partial class vFinal
     {
         /// <inheritdoc />
@@ -38,6 +38,9 @@ namespace Locations.APP.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityName")
+                        .IsUnique();
+
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities");
@@ -58,6 +61,9 @@ namespace Locations.APP.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryName")
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });

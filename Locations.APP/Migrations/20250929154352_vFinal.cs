@@ -45,9 +45,21 @@ namespace Locations.APP.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cities_CityName",
+                table: "Cities",
+                column: "CityName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
                 table: "Cities",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_CountryName",
+                table: "Countries",
+                column: "CountryName",
+                unique: true);
         }
 
         /// <inheritdoc />

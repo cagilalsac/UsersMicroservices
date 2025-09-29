@@ -24,6 +24,17 @@ namespace Locations.APP.Domain
         /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Index configurations:
+            // Defining unique indices to enforce uniqueness constraints on certain properties.
+            // CountryName data of the Conutries table can not have multiple same values.
+            modelBuilder.Entity<Country>().HasIndex(countryEntity => countryEntity.CountryName).IsUnique();
+
+            // CityName data of the Cities table can not have multiple same values.
+            modelBuilder.Entity<City>().HasIndex(cityEntity => cityEntity.CityName).IsUnique();
+
+
+
+            // Relationship configurations:
             // Configuration should start with the entities that have the foreign keys.
             modelBuilder.Entity<City>()
                 .HasOne(cityEntity => cityEntity.Country) // each City entity has one related Country entity

@@ -45,6 +45,27 @@ namespace Users.APP.Domain
         /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Index configurations:
+            // Defining unique indices to enforce uniqueness constraints on certain properties.
+            // Title data of the Groups table can not have multiple same values.
+            modelBuilder.Entity<Group>().HasIndex(groupEntity => groupEntity.Title).IsUnique();
+
+            // Name data of the Roles table can not have multiple same values.
+            modelBuilder.Entity<Role>().HasIndex(roleEntity => roleEntity.Name).IsUnique();
+
+            // UserName data of the Users table can not have multiple same values.
+            modelBuilder.Entity<User>().HasIndex(userEntity => userEntity.UserName).IsUnique();
+
+            // Defining indices for optimizing query performance on frequently searched properties.
+            modelBuilder.Entity<User>().HasIndex(userEntity => userEntity.CountryId);
+            modelBuilder.Entity<User>().HasIndex(userEntity => userEntity.CityId);
+
+            // Composite index on FirstName and LastName for optimizing searches involving both fields.
+            modelBuilder.Entity<User>().HasIndex(userEntity => new { userEntity.FirstName, userEntity.LastName });
+
+
+
+            // Relationship configurations:
             // Configuration should start with the entities that have the foreign keys.
             modelBuilder.Entity<UserRole>()
                 .HasOne(userRoleEntity => userRoleEntity.User) // each UserRole entity has one related User entity
