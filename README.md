@@ -152,7 +152,7 @@ chmod 644 ~/.nuget/NuGet/NuGet.Config
 25. Add builder.Services.AddMediatR... in Program.cs:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Program.cs
 
-26. Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the GroupsController, 
+26. (Week 3) Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the GroupsController, 
     implement the Mediator injection and Get actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
 
