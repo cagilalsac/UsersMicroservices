@@ -284,7 +284,7 @@ chmod 644 ~/.nuget/NuGet/NuGet.Config
 33. Right-click CORE Project then click Manage NuGet Packages then in Browse tab search for Microsoft.EntityFrameworkCore 
     latest version starting with 8 and install.
 
-34. Implement a base abstract generic service class in CORE/APP/Services:  
+34. (Week 5) Implement a base abstract generic service class in CORE/APP/Services:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Service.cs
 
 ## 6. Role and User Entities - Users.APP Project
@@ -371,6 +371,11 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 46. Right-click the Controllers folder then Add -> Controller -> Common -> API -> API Controller with actions, using Entity Framework 
     and select Role entity as Model class, select UsersDb as DbContext class and give the name RolesController as Controller name:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/RolesController.cs
+
+    Note: For Rider run:  
+    "dotnet aspnet-codegenerator controller -name {ModelName}Controller -m {Namespace}.{ModelName} -dc {Namespace}.{DbContextName} 
+    --relativeFolderPath Controllers -api"  
+    in the terminal for scaffolding with the templates under the Templates folder.
 
 47. Right-click the Controllers folder then Add -> Controller -> Common -> API -> API Controller with actions, using Entity Framework 
     and select User entity as Model class, select UsersDb as DbContext class and give the name UsersController as Controller name:  
