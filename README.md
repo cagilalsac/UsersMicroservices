@@ -123,7 +123,7 @@ chmod 644 ~/.nuget/NuGet/NuGet.Config
       dotnet tool install -g dotnet-ef  
       Run:  
       dotnet ef migrations add v1  
-      dotnet ef database update -p Users.App -s Users.API  
+      dotnet ef database update -p Users.APP -s Users.API  
     - You can see the created UsersDB database file in Users.API Project.  
     - Optionally in Visual Studio, you can install the SQLite and SQL Server Compact Toolbox extension  
       from Visual Studio menu -> Extensions -> Manage Extensions to connect to the created UsersDB SQLite database.
@@ -333,7 +333,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     - For Rider, you can use the UI as described in JetBrains documentation, or from the terminal  
       Run:  
       dotnet ef migrations add v2  
-      dotnet ef database update -p Users.App -s Users.API
+      dotnet ef database update -p Users.APP -s Users.API
 
 42. Under Features/Users, add the following handlers inheriting from the base abstract generic entity Service class:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Users/UserQueryHandler.cs
@@ -435,7 +435,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     - For Rider, you can use the UI as described in JetBrains documentation, or from the terminal  
       Run:  
       dotnet ef migrations add v3  
-      dotnet ef database update -p Users.App -s Users.API
+      dotnet ef database update -p Users.APP -s Users.API
 
 57. Under Features/Tokens, create TokenHandler:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Tokens/TokenHandler.cs
