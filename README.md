@@ -359,7 +359,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Roles/RoleDeleteHandler.cs
 
-44. Since Group entity has relational User entities (group-users one to many relationship),  
+44. (Week 6) Since Group entity has relational User entities (group-users one to many relationship),  
     we should check if the group to be deleted has any relational users in the Handle method. If any, we shouldn't delete the group:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Groups/GroupDeleteHandler.cs
  
@@ -385,7 +385,7 @@ Note: The entities and DbContext class should be implemented first. Second, requ
     --relativeFolderPath Controllers -api"  
     in the terminal for scaffolding with the templates under the Templates folder.
 
-47. Right-click the Controllers folder then Add -> Controller -> Common -> API -> API Controller with actions, using Entity Framework 
+47. (Week 7) Right-click the Controllers folder then Add -> Controller -> Common -> API -> API Controller with actions, using Entity Framework 
     and select User entity as Model class, select UsersDb as DbContext class and give the name UsersController as Controller name:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
     
