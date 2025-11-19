@@ -411,21 +411,18 @@ Note: The entities and DbContext class should be implemented first. Second, requ
 51. Create the TokenResponse class in CORE Project's APP/Models/Authentication folder.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Models/Authentication/TokenResponse.cs
 
-52. Create the base authentication service class named AuthServiceBase in CORE Project's APP/Services/Authentication folder.  
-    https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/AuthServiceBase.cs
-
-53. Create the token authentication service interface named ITokenAuthService in CORE Project's APP/Services/Authentication folder.  
+52. Create the token authentication service interface named ITokenAuthService in CORE Project's APP/Services/Authentication folder.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/ITokenAuthService.cs
 
-54. Create the token authentication concrete service class named TokenAuthService in CORE Project's APP/Services/Authentication folder.  
+53. Create the token authentication concrete service class named TokenAuthService in CORE Project's APP/Services/Authentication folder.  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/CORE/APP/Services/Authentication/TokenAuthService.cs
 
 ## 7. JWT (Json Web Token) Authentication and Authorization - Users.APP Project
 
-55. Add RefreshToken and RefreshTokenExpiration properties to the User entity:  
+54. Add RefreshToken and RefreshTokenExpiration properties to the User entity:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Domain/User.cs
 
-56. Update your UsersDB database for the RefreshToken and RefreshTokenExpiration columns of the Users table using migrations:  
+55. Update your UsersDB database for the RefreshToken and RefreshTokenExpiration columns of the Users table using migrations:  
     - Open Package Manager Console from Visual Studio menu -> Tools -> NuGet Package Manager -> Package Manager Console  
     - Right-click Users.API Project and click Set as Startup Project  
     - Set Users.APP as Default Project in Package Manager Console  
@@ -437,15 +434,15 @@ Note: The entities and DbContext class should be implemented first. Second, requ
       dotnet ef migrations add v3  
       dotnet ef database update -p Users.APP -s Users.API
 
-57. Under Features/Tokens, create TokenHandler:  
+56. Under Features/Tokens, create TokenHandler:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Tokens/TokenHandler.cs
 
-58. Under Features/Tokens, create RefreshTokenHandler:  
+57. Under Features/Tokens, create RefreshTokenHandler:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.APP/Features/Tokens/RefreshTokenHandler.cs
 
 ## 7. JWT (Json Web Token) Authentication and Authorization - Users.API Project
 
-59. In Program.cs, add  
+58. In Program.cs, add  
     "builder.Services.AddSingleton<ITokenAuthService, TokenAuthService>();"  
     builder.Configuration["SecurityKey"]...  
     builder.Services.AddAuthentication...  
@@ -475,14 +472,14 @@ Note: The entities and DbContext class should be implemented first. Second, requ
       Notes:  
       Injecting a Scoped service into a Singleton can cause issues due to lifetime mismatch. ASP.NET Core DI container will warn about such mismatches.
     
-60. Add Issuer, Audience and TokenMessage sections to appsettings.json:  
+59. Add Issuer, Audience and TokenMessage sections to appsettings.json:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/appsettings.json
 
-61. Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the TokensController, 
+60. Right-click Users.API Controllers folder then Add -> Controller -> Common -> API -> API Controller - Empty to create the TokensController, 
     implement the Mediator and Configuration injections then implement the Token and RefreshToken actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/TokensController.cs
 
-62. Add the [Authorize(Roles = "Admin")] attribute for Admin role on top of the RolesController class so that all of the actions can be executed 
+61. Add the [Authorize(Roles = "Admin")] attribute for Admin role on top of the RolesController class so that all of the actions can be executed 
     by only authenticated users with role Admin:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/RolesController.cs
  
@@ -507,19 +504,19 @@ Note: The entities and DbContext class should be implemented first. Second, requ
       [AllowAnonymous]: Can be used to override [Authorize] at the action level and allows public access, therefore gives permission to everyone 
       for executing specific actions.
 
-63. Add the [Authorize] attribute on top of the GroupsController class. For example, if the Get action is wanted to be executed by 
+62. Add the [Authorize] attribute on top of the GroupsController class. For example, if the Get action is wanted to be executed by 
     authorized and unauthorized users (eveyone), [AllowAnonymous] attribute can be defined. The Get by ID action can be executed by only 
     authenticated users since Authorize is defined at controller level. Add [Authorize(Roles = "Admin")] attribute on top of the 
     Post, Put and Delete actions so that only authenticated users with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/GroupsController.cs
 
-64. Add the [Authorize(Roles = "Admin,User")] attribute, or [Authorize] attribute since we have only 2 roles, on top of the Get and 
+63. Add the [Authorize(Roles = "Admin,User")] attribute, or [Authorize] attribute since we have only 2 roles, on top of the Get and 
     GetFiltered actions of the UsersController class so that authenticated users with all roles can execute these actions. 
     Then add [Authorize(Roles = "Admin")] attribute on top of the Get by ID, Post, Put and Delete actions so that authenticated users 
     with role Admin can execute these actions:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Users.API/Controllers/UsersController.cs
 
-65. To increase the security of APIs for the Production Environment, Cross-Origin Resource Sharing configuration can be added 
+64. To increase the security of APIs for the Production Environment, Cross-Origin Resource Sharing configuration can be added 
     in the Program.cs of the Users.API Project:  
     builder.Services.AddCors...  
     app.UseCors...  
@@ -580,13 +577,13 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
 
 ## III) Gateway.API
 
-66.	Create a new project under the solution named Gateway.API, search for web api and select ASP.NET Core Web API template, 
+65.	Create a new project under the solution named Gateway.API, search for web api and select ASP.NET Core Web API template, 
     select .NET 8 as the Framework, Authentication type as None, check Configure for HTTPS, do not check Enable OpenAPI support, 
     do not check Use controllers and check Enlist in .NET Aspire orchestration.
 
-67.	Right click on the Gateway.API project then click Manage NuGet Packages. Under the Browse tab search for Ocelot and install the latest version.
+66.	Right click on the Gateway.API project then click Manage NuGet Packages. Under the Browse tab search for Ocelot and install the latest version.
 
-68. Create the ocelot.json file in the Gateway.API project:  
+67. Create the ocelot.json file in the Gateway.API project:  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Gateway.API/ocelot.json
 
     You can get the Host and Port of DownstreamHostAndPorts section from the launchSettings.json files which are under the Properties folder of 
@@ -596,13 +593,13 @@ https://github.com/cagilalsac/UsersMicroservices/tree/master/Locations.API/Contr
     "localhost:5021" for Users.API, and "localhost:5038" for Locations.API. 
     Now you can reach all of the users and locations endpoints defined in the ocelot.json file through this gateway.
 
-69.	Open the Program.cs file of the Gateway.API and add:  
+68.	Open the Program.cs file of the Gateway.API and add:  
     "builder.Configuration.AddJsonFile("ocelot.json");"  
     "builder.Services.AddOcelot();"  
     "await app.UseOcelot();"  
     https://github.com/cagilalsac/UsersMicroservices/tree/master/Gateway.API/Program.cs
 
-70.	You can get the url of the Gateway.API from the launchSettings.json file under the Properties folder which is for our solution  
+69.	You can get the url of the Gateway.API from the launchSettings.json file under the Properties folder which is for our solution  
     https: "localhost:7237" (first url defined at applicationUrl of the https profile)  
     http: "localhost:5024" (url defined at applicationUrl of the http profile)  
 
