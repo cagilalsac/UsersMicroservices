@@ -8,8 +8,8 @@ namespace Users.APP.Domain
     {
         // Reference Type: string, array, class and interface
         // are reference types (can be null).
-        // Title can't be null and must contain maximum 5 characters.
-        [Required, StringLength(5)]
+        // Title can't be null and must contain maximum 10 characters.
+        [Required, StringLength(10)]
         public string Title { get; set; }
 
         // Reference Type and Navigation Property:

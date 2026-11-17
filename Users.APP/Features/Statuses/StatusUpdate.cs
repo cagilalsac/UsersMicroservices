@@ -13,8 +13,8 @@ namespace Users.APP.Features.Statuses
     public class StatusUpdateRequest : Record, IRequest<CommandResponse>
     {
         // Copy all the non navigation properties from Status entity.
-        // Title can't be null and can be maximum 5 characters.
-        [Required, StringLength(5)]
+        // Title can't be null and can be maximum 10 characters.
+        [Required, StringLength(10)]
         public string Title { get; set; }
     }
 

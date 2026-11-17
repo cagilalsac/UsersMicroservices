@@ -13,7 +13,7 @@ namespace Users.APP.Features.Statuses
     public class StatusAddRequest : Record, IRequest<CommandResponse>
     {
         // Copy all the non navigation properties from Status entity.
-        [Required, StringLength(5)]
+        [Required, StringLength(10)]
         public string Title { get; set; }
     }
 
